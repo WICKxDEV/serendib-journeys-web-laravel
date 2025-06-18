@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('tours', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->foreignId('destination_id')->constrained()->onDelete('cascade');
+            $table->string('title');
+            $table->text('description');
+            $table->decimal('price', 10, 2);
+            $table->text('itinerary');
+            $table->date('available_from');
+            $table->date('available_to');
             $table->timestamps();
-            $table->string('role')->default('customer'); // admin, customer, guide
         });
     }
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('tours');
     }
 };
