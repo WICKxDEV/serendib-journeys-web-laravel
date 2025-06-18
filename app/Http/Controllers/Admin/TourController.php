@@ -3,83 +3,65 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tour;
+use App\Models\Destination;
 use Illuminate\Http\Request;
 
 class TourController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $tours = Tour::with('destination')->get();
+        return view('admin.tours.index', compact('tours'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $destinations = Destination::all();
+        return view('admin.tours.create', compact('destinations'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'destination_id' => 'required|exists:destinations,id',
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'itinerary' => 'required',
+            'available_from' => 'required|date',
+            'available_to' => 'required|date|after_or_equal:available_from',
+        ]);
+
+        Tour::create($request->all());
+        return redirect()->route('admin.tours.index')->with('success', 'Tour created.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Tour $tour)
     {
-        //
+        $destinations = Destination::all();
+        return view('admin.tours.edit', compact('tour', 'destinations'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $request, Tour $tour)
     {
-        //
+        $request->validate([
+            'destination_id' => 'required|exists:destinations,id',
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'itinerary' => 'required',
+            'available_from' => 'required|date',
+            'available_to' => 'required|date|after_or_equal:available_from',
+        ]);
+
+        $tour->update($request->all());
+        return redirect()->route('admin.tours.index')->with('success', 'Tour updated.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy(Tour $tour)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $tour->delete();
+        return redirect()->route('admin.tours.index')->with('success', 'Tour deleted.');
     }
 }
