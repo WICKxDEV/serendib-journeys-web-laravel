@@ -11,3 +11,9 @@
     </form>
 </div>
 @endsection
+
+@if(session('success'))
+    <div class="bg-green-200 text-green-800 p-2 rounded mb-2">
+        {{ session('success') }}
+    </div>
+@endif

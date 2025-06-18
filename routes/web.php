@@ -41,7 +41,9 @@ Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->
 
     Route::get('bookings', [App\Http\Controllers\Customer\BookingController::class, 'index'])->name('bookings.index');
     Route::get('profile', [App\Http\Controllers\Customer\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile', [App\Http\Controllers\Customer\ProfileController::class, 'update'])->name('profile.update');
 });
+
 
 
 require __DIR__.'/auth.php';
