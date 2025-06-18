@@ -34,4 +34,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('tours', \App\Http\Controllers\Admin\TourController::class);
 });
 
+Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->group(function () {
+    Route::get('dashboard', function () {
+        return view('customer.dashboard');
+    })->name('dashboard');
+
+    Route::get('bookings', [App\Http\Controllers\Customer\BookingController::class, 'index'])->name('bookings.index');
+    Route::get('profile', [App\Http\Controllers\Customer\ProfileController::class, 'edit'])->name('profile.edit');
+});
+
+
 require __DIR__.'/auth.php';
