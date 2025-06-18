@@ -21,6 +21,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('/customer/dashboard', [CustomerController::class, 'dashboard'])->name('customer.dashboard');
+    Route::post('book-tour/{tour}', [App\Http\Controllers\Customer\BookingController::class, 'store'])->name('bookings.store');
 });
 
 Route::middleware('auth')->group(function () {
