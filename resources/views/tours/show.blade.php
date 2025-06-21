@@ -7,4 +7,9 @@
 
     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Book Now</button>
 </form>
+<form action="{{ route('customer.payment.checkout', $tour->id) }}" method="POST">
+    @csrf
+    <input type="number" name="guests" min="1" value="1" required>
+    <button type="submit">Pay & Book Now</button>
+</form>
 
