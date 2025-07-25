@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
 class AdminUserSeeder extends Seeder
@@ -14,15 +15,17 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         // Check if admin already exists
-        $admin = User::where('email', 'admin@tourism.com')->first();
+        $adminUser = User::where('email', 'admin@tourism.com')->first();
+        $adminRole = Role::where('slug', 'admin')->first();
 
-        if (!$admin) {
-            User::create([
+        if (!$adminUser && $adminRole) {
+            $admin = User::create([
                 'name' => 'Admin User',
                 'email' => 'admin@tourism.com',
                 'password' => Hash::make('password'), // Change 'password' in production
-                'role' => 'admin', // Make sure 'role' column exists in users table
             ]);
+
+            $admin->roles()->attach($adminRole);
         }
     }
 }

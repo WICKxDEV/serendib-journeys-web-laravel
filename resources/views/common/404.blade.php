@@ -2,16 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Serendib Journeys - Explore Sri Lanka with Expert Tour Guides</title>
+    <title>{{ \App\Helpers\SettingsHelper::get('site_title', 'Serendib Journeys - Explore Sri Lanka with Expert Tour Guides') }}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta
-      content="Sri Lanka tours, expert tour guide, Ceylon travel, tourism"
-      name="keywords"
-    />
-    <meta
-      content="Discover the beauty of Sri Lanka with Serendib Journeys, the top tour guide service. Personalized itineraries, transport, and accommodations."
-      name="description"
-    />
+    <meta content="{{ \App\Helpers\SettingsHelper::get('seo_keywords', 'Sri Lanka tours, expert tour guide, Ceylon travel, tourism') }}" name="keywords" />
+    <meta content="{{ \App\Helpers\SettingsHelper::get('seo_description', 'Discover the beauty of Sri Lanka with Serendib Journeys, the top tour guide service. Personalized itineraries, transport, and accommodations.') }}" name="description" />
 
     <!-- Favicon -->
     <link
@@ -93,55 +87,63 @@
         <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
           <div class="d-inline-flex align-items-center" style="height: 45px">
             <small class="me-3 text-light"
-              ><i class="fa fa-map-marker-alt me-2"></i> Sigiriya, Sri
-              Lanka</small
+              ><i class="fa fa-map-marker-alt me-2"></i> {{ \App\Helpers\SettingsHelper::get('address', 'Sigiriya, Sri Lanka') }}</small
             >
             <small class="me-3 text-light"
-              ><i class="fa fa-phone-alt me-2"></i>+94 70 7777 364</small
+              ><i class="fa fa-phone-alt me-2"></i> {{ \App\Helpers\SettingsHelper::get('phone', '+94 70 7777 364') }}</small
             >
             <small class="text-light"
-              ><i class="fa fa-envelope-open me-2"></i
-              >info@serendibjourneys.lk</small
+              ><i class="fa fa-envelope-open me-2"></i> {{ \App\Helpers\SettingsHelper::get('email', 'info@serendibjourneys.lk') }}</small
             >
           </div>
         </div>
         <div class="col-lg-4 text-center text-lg-end">
           <div class="d-inline-flex align-items-center" style="height: 45px">
+            @if(\App\Helpers\SettingsHelper::get('social_instagram'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://www.instagram.com/serendib_journeys/"
+              href="{{ \App\Helpers\SettingsHelper::get('social_instagram') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-instagram fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_facebook'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://web.facebook.com/profile.php?id=61565812649360"
+              href="{{ \App\Helpers\SettingsHelper::get('social_facebook') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-facebook-f fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_tiktok'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://www.tiktok.com/@serendibjourneys"
+              href="{{ \App\Helpers\SettingsHelper::get('social_tiktok') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-tiktok fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_whatsapp'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://wa.me/94707777364"
+              href="{{ \App\Helpers\SettingsHelper::get('social_whatsapp') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-whatsapp fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_youtube'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle"
-              href="https://www.youtube.com/@SerendibJourneys"
+              href="{{ \App\Helpers\SettingsHelper::get('social_youtube') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-youtube fw-normal"></i
             ></a>
+            @endif
           </div>
         </div>
       </div>
@@ -153,10 +155,10 @@
       <nav
         class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0"
       >
-        <a href="" class="navbar-brand p-0">
+        <a href="{{ route('home') }}" class="navbar-brand p-0">
           <img src="img/logo-min.png" alt="Logo" />
         </a>
-        <h2 class="text-primary-new-top m-0">Serendib Journeys</h2>
+        <h2 class="text-primary-new-top m-0">{{ \App\Helpers\SettingsHelper::get('site_name', 'Serendib Journeys') }}</h2>
         <button
           class="navbar-toggler sticky-toggler"
           type="button"
@@ -167,12 +169,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <div class="navbar-nav ms-auto py-0">
-            <a href="index.html" class="nav-item nav-link">Home</a>
-            <a href="about.html" class="nav-item nav-link">About</a>
-            <a href="service.html" class="nav-item nav-link">Services</a>
-            <a href="package.html" class="nav-item nav-link">Packages</a>
-            <a href="gallery.html" class="nav-item nav-link">Gallery</a>
-            <a href="contact.html" class="nav-item nav-link">Contact</a>
+            <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
+            <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
+            <a href="{{ route('services') }}" class="nav-item nav-link">Services</a>
+            <a href="{{ route('packages') }}" class="nav-item nav-link">Packages</a>
+            <a href="{{ route('gallery') }}" class="nav-item nav-link">Gallery</a>
+            <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
           </div>
           <!-- <a href="" class="btn btn-primary rounded-pill py-2 px-4">Register</a> -->
         </div>
@@ -187,14 +189,8 @@
               </h1>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                  <li
-                    class="breadcrumb-item text-white active"
-                    aria-current="page"
-                  >
-                    404
-                  </li>
+                  <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                  <li class="breadcrumb-item text-white active" aria-current="page">404</li>
                 </ol>
               </nav>
             </div>
@@ -218,12 +214,10 @@
             <h1 class="display-1">404</h1>
             <h1 class="mb-4">Page Not Found</h1>
             <p class="mb-4">
-              We’re sorry, the page you have looked for does not exist in our
+              We're sorry, the page you have looked for does not exist in our
               website! Maybe go to our home page or try to use a search?
             </p>
-            <a class="btn btn-primary rounded-pill py-3 px-5" href=""
-              >Go Back To Home</a
-            >
+            <a class="btn btn-primary rounded-pill py-3 px-5" href="{{ route('home') }}">Go Back To Home</a>
           </div>
         </div>
       </div>
@@ -238,61 +232,71 @@
       <div class="container py-5">
         <div class="row g-5">
           <div class="col-lg-3 col-md-6">
-            <h4 class="text-white mb-3">Company</h4>
-            <a class="btn btn-link" href="about.html">About Us</a>
-            <a class="btn btn-link" href="contact.html">Contact Us</a>
-            <a class="btn btn-link" href="">Privacy Policy</a>
-            <a class="btn btn-link" href="">Terms & Condition</a>
-            <a class="btn btn-link" href="">FAQs & Help</a>
+            <h4 class="text-white mb-3">{{ \App\Helpers\SettingsHelper::get('site_name', 'Serendib Journeys') }}</h4>
+            <a class="btn btn-link" href="{{ route('about') }}">About Us</a>
+            <a class="btn btn-link" href="{{ route('contact') }}">Contact Us</a>
+            <a class="btn btn-link" href="#">Privacy Policy</a>
+            <a class="btn btn-link" href="#">Terms & Condition</a>
+            <a class="btn btn-link" href="#">FAQs & Help</a>
           </div>
           <div class="col-lg-3 col-md-6">
             <h4 class="text-white mb-3">Contact</h4>
             <p class="mb-2">
               <i class="fa fa-map-marker-alt me-3"></i>
-              Sigiriya, Sri lanka
+              {{ \App\Helpers\SettingsHelper::get('address', 'Sigiriya, Sri Lanka') }}
             </p>
             <p class="mb-2">
-              <i class="fa fa-phone-alt me-3"></i>+94 70 7777 364
+              <i class="fa fa-phone-alt me-3"></i> {{ \App\Helpers\SettingsHelper::get('phone', '+94 70 7777 364') }}
             </p>
             <p class="mb-2">
-              <i class="fa fa-envelope me-3"></i>info@serendibjourneys.lk
+              <i class="fa fa-envelope me-3"></i> {{ \App\Helpers\SettingsHelper::get('email', 'info@serendibjourneys.lk') }}
             </p>
             <div class="d-flex pt-2">
+              @if(\App\Helpers\SettingsHelper::get('social_instagram'))
               <a
                 class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-                href="https://www.instagram.com/serendib_journeys/"
+                href="{{ \App\Helpers\SettingsHelper::get('social_instagram') }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 ><i class="fab fa-instagram fw-normal"></i
               ></a>
+              @endif
+              @if(\App\Helpers\SettingsHelper::get('social_facebook'))
               <a
                 class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-                href="https://web.facebook.com/profile.php?id=61565812649360"
+                href="{{ \App\Helpers\SettingsHelper::get('social_facebook') }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 ><i class="fab fa-facebook-f fw-normal"></i
               ></a>
+              @endif
+              @if(\App\Helpers\SettingsHelper::get('social_tiktok'))
               <a
                 class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-                href="https://www.tiktok.com/@serendibjourneys"
+                href="{{ \App\Helpers\SettingsHelper::get('social_tiktok') }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 ><i class="fab fa-tiktok fw-normal"></i
               ></a>
+              @endif
+              @if(\App\Helpers\SettingsHelper::get('social_whatsapp'))
               <a
                 class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-                href="https://wa.me/94707777364"
+                href="{{ \App\Helpers\SettingsHelper::get('social_whatsapp') }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 ><i class="fab fa-whatsapp fw-normal"></i
               ></a>
+              @endif
+              @if(\App\Helpers\SettingsHelper::get('social_youtube'))
               <a
                 class="btn btn-sm btn-outline-light btn-sm-square rounded-circle"
-                href="https://www.youtube.com/@SerendibJourneys"
+                href="{{ \App\Helpers\SettingsHelper::get('social_youtube') }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 ><i class="fab fa-youtube fw-normal"></i
               ></a>
+              @endif
             </div>
           </div>
           <div class="col-lg-3 col-md-6">
@@ -365,13 +369,13 @@
         <div class="copyright">
           <div class="row">
             <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-              &copy; <a class="border-bottom" href="#">Serendib Journeys</a>,
+              &copy; <a class="border-bottom" href="#">{{ \App\Helpers\SettingsHelper::get('site_name', 'Serendib Journeys') }}</a>,
               All Right Reserved. Designed By
               <a class="border-bottom" href="">Serendib Digital</a>
             </div>
             <div class="col-md-6 text-center text-md-end">
               <div class="footer-menu">
-                <a href="index.html">Home</a>
+                <a href="{{ route('home') }}">Home</a>
                 <a href="">Cookies</a>
                 <a href="">Help</a>
                 <a href="">FQAs</a>

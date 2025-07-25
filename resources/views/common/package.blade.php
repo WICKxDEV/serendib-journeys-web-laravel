@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Serendib Journeys - Explore Sri Lanka with Expert Tour Guides</title>
+    <title>{{ \App\Helpers\SettingsHelper::get('site_title', 'Serendib Journeys - Explore Sri Lanka with Expert Tour Guides') }}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta
-      content="Sri Lanka tours, expert tour guide, Ceylon travel, tourism"
+      content="{{ \App\Helpers\SettingsHelper::get('seo_keywords', 'Sri Lanka tours, expert tour guide, Ceylon travel, tourism') }}"
       name="keywords"
     />
     <meta
-      content="Discover the beauty of Sri Lanka with Serendib Journeys, the top tour guide service. Personalized itineraries, transport, and accommodations."
+      content="{{ \App\Helpers\SettingsHelper::get('seo_description', 'Discover the beauty of Sri Lanka with Serendib Journeys, the top tour guide service. Personalized itineraries, transport, and accommodations.') }}"
       name="description"
     />
 
@@ -93,55 +93,63 @@
         <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
           <div class="d-inline-flex align-items-center" style="height: 45px">
             <small class="me-3 text-light"
-              ><i class="fa fa-map-marker-alt me-2"></i> Sigiriya, Sri
-              Lanka</small
+              ><i class="fa fa-map-marker-alt me-2"></i> {{ \App\Helpers\SettingsHelper::get('address', 'Sigiriya, Sri Lanka') }}</small
             >
             <small class="me-3 text-light"
-              ><i class="fa fa-phone-alt me-2"></i>+94 70 7777 364</small
+              ><i class="fa fa-phone-alt me-2"></i>{{ \App\Helpers\SettingsHelper::get('phone', '+94 70 7777 364') }}</small
             >
             <small class="text-light"
-              ><i class="fa fa-envelope-open me-2"></i
-              >info@serendibjourneys.lk</small
+              ><i class="fa fa-envelope-open me-2"></i>{{ \App\Helpers\SettingsHelper::get('email', 'info@serendibjourneys.lk') }}</small
             >
           </div>
         </div>
         <div class="col-lg-4 text-center text-lg-end">
           <div class="d-inline-flex align-items-center" style="height: 45px">
+            @if(\App\Helpers\SettingsHelper::get('social_instagram'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://www.instagram.com/serendib_journeys/"
+              href="{{ \App\Helpers\SettingsHelper::get('social_instagram') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-instagram fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_facebook'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://web.facebook.com/profile.php?id=61565812649360"
+              href="{{ \App\Helpers\SettingsHelper::get('social_facebook') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-facebook-f fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_tiktok'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://www.tiktok.com/@serendibjourneys"
+              href="{{ \App\Helpers\SettingsHelper::get('social_tiktok') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-tiktok fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_whatsapp'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://wa.me/94707777364"
+              href="{{ \App\Helpers\SettingsHelper::get('social_whatsapp') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-whatsapp fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_youtube'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle"
-              href="https://www.youtube.com/@SerendibJourneys"
+              href="{{ \App\Helpers\SettingsHelper::get('social_youtube') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-youtube fw-normal"></i
             ></a>
+            @endif
           </div>
         </div>
       </div>
@@ -153,10 +161,10 @@
       <nav
         class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0"
       >
-        <a href="" class="navbar-brand p-0">
+        <a href="{{ route('home') }}" class="navbar-brand p-0">
           <img src="img/logo-min.png" alt="Logo" />
         </a>
-        <h2 class="text-primary-new-top m-0">Serendib Journeys</h2>
+        <h2 class="text-primary-new-top m-0">{{ \App\Helpers\SettingsHelper::get('site_name', 'Serendib Journeys') }}</h2>
         <button
           class="navbar-toggler sticky-toggler"
           type="button"
@@ -170,24 +178,22 @@
             <a href="{{ route('home') }}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
             <a href="{{ route('about') }}" class="nav-item nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a>
             <a href="{{ route('services') }}" class="nav-item nav-link {{ request()->routeIs('services') ? 'active' : '' }}">Services</a>
-            <a href="{{ route('packages') }}" class="nav-item nav-link {{ request()->routeIs('packages') ? 'active' : '' }}">Packages</a>
+            <a href="{{ route('packages') }}" class="nav-item nav-link {{ request()->routeIs('booking') ? 'active' : '' }}">Packages</a>
+            <a href="{{ route('booking.form') }}" class="nav-item nav-link {{ request()->routeIs('booking.form') ? 'active' : '' }}">Booking</a>
             <a href="{{ route('gallery') }}" class="nav-item nav-link {{ request()->routeIs('gallery') ? 'active' : '' }}">Gallery</a>
             <a href="{{ route('contact') }}" class="nav-item nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
             @if (Route::has('login'))
-                <!-- <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block"> -->
-                    @auth
-                        <a href="{{ url('/dashboard') }}">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="nav-item nav-link">Log in</a>
+                @auth
+                    <a href="{{ url('/dashboard') }}" class="nav-item nav-link">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="nav-item nav-link">Log in</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="nav-item nav-link">Register</a>
-                        @endif
-                    @endauth
-                <!-- </div> -->
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="nav-item nav-link">Register</a>
+                    @endif
+                @endauth
             @endif
           </div>
-          <!-- <a href="" class="btn btn-primary rounded-pill py-2 px-4">Register</a> -->
         </div>
       </nav>
 
@@ -198,16 +204,14 @@
               <h1
                 class="display-3 text-white animated slideInDown text-primary-new"
               >
-                Customized Packages for Every Traveler
+                {{ \App\Helpers\SettingsHelper::get('packages_page_title', 'Our Packages') }}
               </h1>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                  <li
-                    class="breadcrumb-item text-white active"
-                    aria-current="page"
-                  >
+                  <li class="breadcrumb-item">
+                    <a class="text-white" href="{{ route('home') }}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item text-white active" aria-current="page">
                     Packages
                   </li>
                 </ol>
@@ -230,368 +234,32 @@
           <h1 class="mb-5">Awesome Packages</h1>
         </div>
         <div class="row g-4 justify-content-center">
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="package-item">
-              <div
-                id="carouselExample"
-                class="carousel slide carousel-fade"
-                data-ride="carousel"
-                data-interval="3000"
-                data-pause="hover"
-              >
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img class="img-fluid" src="img/sigiriya-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-5.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-6.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-3.jpg" alt="" />
-                  </div>
+          @foreach($tours as $tour)
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div class="package-item">
+                <img class="img-fluid" src="{{ $tour->featured_image ?? 'img/default.jpg' }}" alt="{{ $tour->title }}" />
+                <div class="d-flex border-bottom">
+                  <small class="flex-fill text-center border-end py-2">
+                    <i class="fa fa-map-marker-alt text-primary me-2"></i> {{ $tour->destination->name ?? 'Sri Lanka' }}
+                  </small>
+                  <small class="flex-fill text-center border-end py-2">
+                    <i class="fa fa-calendar-alt text-primary me-2"></i> {{ $tour->available_from }} - {{ $tour->available_to }}
+                  </small>
+                  <small class="flex-fill text-center py-2">
+                    <i class="fa fa-user text-primary me-2"></i> {{ $tour->guests ?? 'Customizable' }}
+                  </small>
                 </div>
-                <a
-                  class="carousel-control-prev"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a
-                  class="carousel-control-next"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </div>
-              <div class="d-flex border-bottom">
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-car text-primary me-2"></i> Short and Sweet
-                </small>
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-calendar-alt text-primary me-2"></i> 3 days
-                </small>
-                <small class="flex-fill text-center py-2">
-                  <i class="fa fa-user text-primary me-2"></i> Customizable
-                </small>
-              </div>
-              <div class="text-center p-4">
-                <h3 class="mb-0">$349.00</h3>
-                <div class="mb-3">
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                </div>
-                <p>
-                  A quick getaway to explore Sri Lanka's iconic sights in just 3
-                  days, featuring Sigiriya, Kandy, and Mirissa with related
-                  activities.
-                </p>
-                <p style="font-size: 12px">
-                  Note that these prices are for transportation only
-                </p>
-                <div class="d-flex justify-content-center mb-2">
-                  <a
-                    href="itinerary.html"
-                    class="btn btn-sm btn-primary px-3 border-end"
-                    style="border-radius: 30px 0 0 30px"
-                    >Read More</a
-                  >
-                  <a
-                    href="https://docs.google.com/forms/d/1ZCbUIeAIoT1xth3A4rN3XnP0q_A1EdX45BpyEPf7qZ0/"
-                    class="btn btn-sm btn-primary px-3"
-                    style="border-radius: 0 30px 30px 0"
-                    >Book Now</a
-                  >
+                <div class="text-center p-4">
+                  <h3 class="mb-0">${{ $tour->price }}</h3>
+                  <p>{{ $tour->description }}</p>
+                  <div class="d-flex justify-content-center mb-2">
+                    <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px">Read More</a>
+                    <a href="{{ route('booking.form') }}" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0">Book Now</a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-            <div class="package-item">
-              <div
-                id="carouselExample"
-                class="carousel slide carousel-fade"
-                data-ride="carousel"
-                data-interval="3000"
-                data-pause="hover"
-              >
-                <div class="carousel-inner">
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item active">
-                    <img class="img-fluid" src="img/sigiriya-5.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-6.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-3.jpg" alt="" />
-                  </div>
-                </div>
-                <a
-                  class="carousel-control-prev"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a
-                  class="carousel-control-next"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </div>
-              <div class="d-flex border-bottom">
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-car text-primary me-2"></i> Nature Escape
-                </small>
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-calendar-alt text-primary me-2"></i> 6 days
-                </small>
-                <small class="flex-fill text-center py-2">
-                  <i class="fa fa-user text-primary me-2"></i> Customizable
-                </small>
-              </div>
-              <div class="text-center p-4">
-                <h3 class="mb-0">$639.00</h3>
-                <div class="mb-3">
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                </div>
-                <p>
-                  Discover Sri Lanka’s breathtaking landscapes in this 6 day
-                  adventure, from lush tea plantations to wildlife safaris.
-                </p>
-                <p style="font-size: 12px">
-                  Note that these prices are for transportation only
-                </p>
-                <div class="d-flex justify-content-center mb-2">
-                  <a
-                    href="itinerary.html"
-                    class="btn btn-sm btn-primary px-3 border-end"
-                    style="border-radius: 30px 0 0 30px"
-                    >Read More</a
-                  >
-                  <a
-                    href="https://docs.google.com/forms/d/1ZCbUIeAIoT1xth3A4rN3XnP0q_A1EdX45BpyEPf7qZ0/"
-                    class="btn btn-sm btn-primary px-3"
-                    style="border-radius: 0 30px 30px 0"
-                    >Book Now</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="package-item">
-              <div
-                id="carouselExample"
-                class="carousel slide carousel-fade"
-                data-ride="carousel"
-                data-interval="3000"
-                data-pause="hover"
-              >
-                <div class="carousel-inner">
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-5.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item active">
-                    <img class="img-fluid" src="img/kandy-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-6.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-3.jpg" alt="" />
-                  </div>
-                </div>
-                <a
-                  class="carousel-control-prev"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a
-                  class="carousel-control-next"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </div>
-              <div class="d-flex border-bottom">
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-car text-primary me-2"></i> Heritage Quest
-                </small>
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-calendar-alt text-primary me-2"></i> 12 days
-                </small>
-                <small class="flex-fill text-center py-2">
-                  <i class="fa fa-user text-primary me-2"></i> Customizable
-                </small>
-              </div>
-              <div class="text-center p-4">
-                <h3 class="mb-0">$1249.00</h3>
-                <div class="mb-3">
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                </div>
-                <p>
-                  Immerse yourself in Sri Lanka’s rich culture and history over
-                  12 days, visiting ancient cities and sacred sites relax and
-                  calmly.
-                </p>
-                <p style="font-size: 12px">
-                  Note that these prices are for transportation only
-                </p>
-                <div class="d-flex justify-content-center mb-2">
-                  <a
-                    href="itinerary.html"
-                    class="btn btn-sm btn-primary px-3 border-end"
-                    style="border-radius: 30px 0 0 30px"
-                    >Read More</a
-                  >
-                  <a
-                    href="https://docs.google.com/forms/d/1ZCbUIeAIoT1xth3A4rN3XnP0q_A1EdX45BpyEPf7qZ0/"
-                    class="btn btn-sm btn-primary px-3"
-                    style="border-radius: 0 30px 30px 0"
-                    >Book Now</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
+          @endforeach
         </div>
       </div>
     </div>

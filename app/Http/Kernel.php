@@ -60,10 +60,21 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
-        'signed' => \App\Http\Middleware\ValidateSignature::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
-        'customer' => \App\Http\Middleware\CustomerMiddleware::class,
+        'role' => \App\Http\Middleware\CheckRole::class,
+    ];
+
+    /**
+     * The priority-sorted list of middleware.
+     *
+     * This list determines the order in which these middleware are run by the
+     * application.
+     *
+     * @var array<string, int>
+     */
+    protected $middlewarePriority = [
+        // Laravel's default middleware priority list
     ];
 }

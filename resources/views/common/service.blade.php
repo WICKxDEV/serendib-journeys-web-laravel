@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Serendib Journeys - Explore Sri Lanka with Expert Tour Guides</title>
+    <title>{{ \App\Helpers\SettingsHelper::get('site_title', 'Serendib Journeys - Explore Sri Lanka with Expert Tour Guides') }}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta
-      content="Sri Lanka tours, expert tour guide, Ceylon travel, tourism"
+      content="{{ \App\Helpers\SettingsHelper::get('seo_keywords', 'Sri Lanka tours, expert tour guide, Ceylon travel, tourism') }}"
       name="keywords"
     />
     <meta
-      content="Discover the beauty of Sri Lanka with Serendib Journeys, the top tour guide service. Personalized itineraries, transport, and accommodations."
+      content="{{ \App\Helpers\SettingsHelper::get('seo_description', 'Discover the beauty of Sri Lanka with Serendib Journeys, the top tour guide service. Personalized itineraries, transport, and accommodations.') }}"
       name="description"
     />
 
@@ -93,55 +93,63 @@
         <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
           <div class="d-inline-flex align-items-center" style="height: 45px">
             <small class="me-3 text-light"
-              ><i class="fa fa-map-marker-alt me-2"></i> Sigiriya, Sri
-              Lanka</small
+              ><i class="fa fa-map-marker-alt me-2"></i> {{ \App\Helpers\SettingsHelper::get('address', 'Sigiriya, Sri Lanka') }}</small
             >
             <small class="me-3 text-light"
-              ><i class="fa fa-phone-alt me-2"></i>+94 70 7777 364</small
+              ><i class="fa fa-phone-alt me-2"></i>{{ \App\Helpers\SettingsHelper::get('phone', '+94 70 7777 364') }}</small
             >
             <small class="text-light"
-              ><i class="fa fa-envelope-open me-2"></i
-              >info@serendibjourneys.lk</small
+              ><i class="fa fa-envelope-open me-2"></i>{{ \App\Helpers\SettingsHelper::get('email', 'info@serendibjourneys.lk') }}</small
             >
           </div>
         </div>
         <div class="col-lg-4 text-center text-lg-end">
           <div class="d-inline-flex align-items-center" style="height: 45px">
+            @if(\App\Helpers\SettingsHelper::get('social_instagram'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://www.instagram.com/serendib_journeys/"
+              href="{{ \App\Helpers\SettingsHelper::get('social_instagram') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-instagram fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_facebook'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://web.facebook.com/profile.php?id=61565812649360"
+              href="{{ \App\Helpers\SettingsHelper::get('social_facebook') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-facebook-f fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_tiktok'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://www.tiktok.com/@serendibjourneys"
+              href="{{ \App\Helpers\SettingsHelper::get('social_tiktok') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-tiktok fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_whatsapp'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-              href="https://wa.me/94707777364"
+              href="{{ \App\Helpers\SettingsHelper::get('social_whatsapp') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-whatsapp fw-normal"></i
             ></a>
+            @endif
+            @if(\App\Helpers\SettingsHelper::get('social_youtube'))
             <a
               class="btn btn-sm btn-outline-light btn-sm-square rounded-circle"
-              href="https://www.youtube.com/@SerendibJourneys"
+              href="{{ \App\Helpers\SettingsHelper::get('social_youtube') }}"
               target="_blank"
               rel="noopener noreferrer"
               ><i class="fab fa-youtube fw-normal"></i
             ></a>
+            @endif
           </div>
         </div>
       </div>
@@ -153,10 +161,10 @@
       <nav
         class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0"
       >
-        <a href="" class="navbar-brand p-0">
+        <a href="{{ route('home') }}" class="navbar-brand p-0">
           <img src="img/logo-min.png" alt="Logo" />
         </a>
-        <h2 class="text-primary-new-top m-0">Serendib Journeys</h2>
+        <h2 class="text-primary-new-top m-0">{{ \App\Helpers\SettingsHelper::get('site_name', 'Serendib Journeys') }}</h2>
         <button
           class="navbar-toggler sticky-toggler"
           type="button"
@@ -170,24 +178,22 @@
             <a href="{{ route('home') }}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
             <a href="{{ route('about') }}" class="nav-item nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a>
             <a href="{{ route('services') }}" class="nav-item nav-link {{ request()->routeIs('services') ? 'active' : '' }}">Services</a>
-            <a href="{{ route('packages') }}" class="nav-item nav-link {{ request()->routeIs('packages') ? 'active' : '' }}">Packages</a>
+            <a href="{{ route('packages') }}" class="nav-item nav-link {{ request()->routeIs('booking') ? 'active' : '' }}">Packages</a>
+            <a href="{{ route('booking.form') }}" class="nav-item nav-link {{ request()->routeIs('booking.form') ? 'active' : '' }}">Booking</a>
             <a href="{{ route('gallery') }}" class="nav-item nav-link {{ request()->routeIs('gallery') ? 'active' : '' }}">Gallery</a>
             <a href="{{ route('contact') }}" class="nav-item nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
             @if (Route::has('login'))
-                <!-- <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block"> -->
-                    @auth
-                        <a href="{{ url('/dashboard') }}">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="nav-item nav-link">Log in</a>
+                @auth
+                    <a href="{{ url('/dashboard') }}" class="nav-item nav-link">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="nav-item nav-link">Log in</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="nav-item nav-link">Register</a>
-                        @endif
-                    @endauth
-                <!-- </div> -->
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="nav-item nav-link">Register</a>
+                    @endif
+                @endauth
             @endif
           </div>
-          <!-- <a href="" class="btn btn-primary rounded-pill py-2 px-4">Register</a> -->
         </div>
       </nav>
 
@@ -198,16 +204,14 @@
               <h1
                 class="display-3 text-white animated slideInDown text-primary-new"
               >
-                Discover Our Range of Services
+                {{ \App\Helpers\SettingsHelper::get('services_page_title', 'Our Services') }}
               </h1>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                  <li
-                    class="breadcrumb-item text-white active"
-                    aria-current="page"
-                  >
+                  <li class="breadcrumb-item">
+                    <a class="text-white" href="{{ route('home') }}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item text-white active" aria-current="page">
                     Services
                   </li>
                 </ol>
@@ -227,19 +231,16 @@
       <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
           <h6 class="bg-white text-center text-primary-new px-3">Services</h6>
-          <h1 class="mb-5">Our Services</h1>
+          <h1 class="mb-5">{{ \App\Helpers\SettingsHelper::get('services_title', 'Our Services') }}</h1>
         </div>
         <div class="row g-4">
           <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="service-item rounded pt-3">
               <div class="p-4">
                 <i class="fa fa-3x fa-globe text-primary mb-4"></i>
-                <h5>Customized Tour Packages</h5>
+                <h5>{{ \App\Helpers\SettingsHelper::get('service_1_title', 'Customized Tour Packages') }}</h5>
                 <p>
-                  We specialize in creating fully customized travel itineraries
-                  based on your interests, whether it's adventure, culture,
-                  wildlife, or relaxation. Every trip is tailored to fit your
-                  preferences, budget, and time.
+                  {{ \App\Helpers\SettingsHelper::get('service_1_description', 'We specialize in creating fully customized travel itineraries based on your interests, whether it\'s adventure, culture, wildlife, or relaxation. Every trip is tailored to fit your preferences, budget, and time.') }}
                 </p>
               </div>
             </div>
@@ -248,11 +249,9 @@
             <div class="service-item rounded pt-3">
               <div class="p-4">
                 <i class="fa fa-3x fa-user text-primary mb-4"></i>
-                <h5>Private Guided Tours</h5>
+                <h5>{{ \App\Helpers\SettingsHelper::get('service_2_title', 'Private Guided Tours') }}</h5>
                 <p>
-                  Experience Sri Lanka with the knowledge and expertise of local
-                  guides who offer in-depth insights into the history, culture,
-                  and hidden treasures of each destination.
+                  {{ \App\Helpers\SettingsHelper::get('service_2_description', 'Experience Sri Lanka with the knowledge and expertise of local guides who offer in-depth insights into the history, culture, and hidden treasures of each destination.') }}
                 </p>
               </div>
             </div>
@@ -261,12 +260,9 @@
             <div class="service-item rounded pt-3">
               <div class="p-4">
                 <i class="fa fa-3x fa-star text-primary mb-4"></i>
-                <h5>Luxury Travel Experiences</h5>
+                <h5>{{ \App\Helpers\SettingsHelper::get('service_3_title', 'Luxury Travel Experiences') }}</h5>
                 <p>
-                  For those seeking a touch of luxury, we offer exclusive
-                  experiences such as stays in boutique hotels, private
-                  transportation, and unique excursions that cater to high-end
-                  travelers.
+                  {{ \App\Helpers\SettingsHelper::get('service_3_description', 'For those seeking a touch of luxury, we offer exclusive experiences such as stays in boutique hotels, private transportation, and unique excursions that cater to high-end travelers.') }}
                 </p>
               </div>
             </div>
@@ -275,12 +271,9 @@
             <div class="service-item rounded pt-3">
               <div class="p-4">
                 <i class="fa fa-3x fa-paw text-primary mb-4"></i>
-                <h5>Wildlife and Nature Tours</h5>
+                <h5>{{ \App\Helpers\SettingsHelper::get('service_4_title', 'Wildlife and Nature Tours') }}</h5>
                 <p>
-                  Discover Sri Lanka’s breathtaking biodiversity with tours to
-                  national parks, wildlife reserves, and eco-friendly
-                  accommodations. Spot elephants, leopards, and other native
-                  species in their natural habitats.
+                  {{ \App\Helpers\SettingsHelper::get('service_4_description', 'Discover Sri Lanka\'s breathtaking biodiversity with tours to national parks, wildlife reserves, and eco-friendly accommodations. Spot elephants, leopards, and other native species in their natural habitats.') }}
                 </p>
               </div>
             </div>
@@ -289,11 +282,9 @@
             <div class="service-item rounded pt-3">
               <div class="p-4">
                 <i class="fa fa-3x fa-university text-primary mb-4"></i>
-                <h5>Cultural and Heritage Tours</h5>
+                <h5>{{ \App\Helpers\SettingsHelper::get('service_5_title', 'Cultural and Heritage Tours') }}</h5>
                 <p>
-                  Immerse yourself in Sri Lanka’s rich cultural heritage with
-                  guided visits to ancient temples, UNESCO World Heritage Sites,
-                  traditional villages, and vibrant festivals.
+                  {{ \App\Helpers\SettingsHelper::get('service_5_description', 'Immerse yourself in Sri Lanka\'s rich cultural heritage with guided visits to ancient temples, UNESCO World Heritage Sites, traditional villages, and vibrant festivals.') }}
                 </p>
               </div>
             </div>
@@ -306,7 +297,7 @@
                 <p>
                   For thrill-seekers, we offer a range of adventure activities
                   such as hiking, rock climbing, snorkeling, diving, and hot air
-                  ballooning, ensuring you experience Sri Lanka’s natural beauty
+                  ballooning, ensuring you experience Sri Lanka's natural beauty
                   up close.
                 </p>
               </div>
@@ -398,7 +389,7 @@
               They helped us customize our trip to include all the places we
               wanted to see. Our guide was punctual, polite, and shared so much
               fascinating history about the places we visited. This was our
-              first time in Sri Lanka, and it won’t be the last!
+              first time in Sri Lanka, and it won't be the last!
             </p>
           </div>
           <div class="testimonial-item bg-white text-center border p-4">
@@ -453,41 +444,51 @@
               <i class="fa fa-envelope me-3"></i>info@serendibjourneys.lk
             </p>
             <div class="d-flex pt-2">
+              @if(\App\Helpers\SettingsHelper::get('social_instagram'))
               <a
                 class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-                href="https://www.instagram.com/serendib_journeys/"
+                href="{{ \App\Helpers\SettingsHelper::get('social_instagram') }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 ><i class="fab fa-instagram fw-normal"></i
               ></a>
+              @endif
+              @if(\App\Helpers\SettingsHelper::get('social_facebook'))
               <a
                 class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-                href="https://web.facebook.com/profile.php?id=61565812649360"
+                href="{{ \App\Helpers\SettingsHelper::get('social_facebook') }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 ><i class="fab fa-facebook-f fw-normal"></i
               ></a>
+              @endif
+              @if(\App\Helpers\SettingsHelper::get('social_tiktok'))
               <a
                 class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-                href="https://www.tiktok.com/@serendibjourneys"
+                href="{{ \App\Helpers\SettingsHelper::get('social_tiktok') }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 ><i class="fab fa-tiktok fw-normal"></i
               ></a>
+              @endif
+              @if(\App\Helpers\SettingsHelper::get('social_whatsapp'))
               <a
                 class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
-                href="https://wa.me/94707777364"
+                href="{{ \App\Helpers\SettingsHelper::get('social_whatsapp') }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 ><i class="fab fa-whatsapp fw-normal"></i
               ></a>
+              @endif
+              @if(\App\Helpers\SettingsHelper::get('social_youtube'))
               <a
                 class="btn btn-sm btn-outline-light btn-sm-square rounded-circle"
-                href="https://www.youtube.com/@SerendibJourneys"
+                href="{{ \App\Helpers\SettingsHelper::get('social_youtube') }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 ><i class="fab fa-youtube fw-normal"></i
               ></a>
+              @endif
             </div>
           </div>
           <div class="col-lg-3 col-md-6">

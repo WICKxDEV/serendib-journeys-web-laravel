@@ -6,13 +6,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
-    <nav class="bg-white shadow p-4">
-        <a href="{{ route('customer.dashboard') }}" class="mr-4">Dashboard</a>
-        <a href="{{ route('customer.bookings.index') }}" class="mr-4">My Bookings</a>
-        <a href="{{ route('customer.profile.edit') }}" class="mr-4">Profile</a>
+    <nav class="bg-white shadow p-4 flex justify-center items-center space-x-8">
+        <a href="{{ route('customer.dashboard') }}" class="text-lg font-semibold text-blue-600 hover:text-blue-800 transition">Dashboard</a>
         <form method="POST" action="{{ route('logout') }}" class="inline">
             @csrf
-            <button type="submit" class="text-red-500">Logout</button>
+            <button type="submit" class="text-lg font-semibold text-red-500 hover:text-red-700 transition">Logout</button>
         </form>
     </nav>
     <main class="p-6">
