@@ -8,6 +8,7 @@ use App\Http\Controllers\Common\TourController;
 use App\Http\Controllers\Common\BlogController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ActivityController;
 
 // ✅ Public Home Page (Common)
 Route::get('/', [\App\Http\Controllers\Common\HomeController::class, 'index'])->name('home');
@@ -59,8 +60,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('settings', App\Http\Controllers\Admin\SettingController::class);
     Route::post('settings/bulk/update', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update.bulk');
     Route::resource('guides', App\Http\Controllers\Admin\GuideController::class);
-    Route::resource('activities', App\Http\Controllers\Admin\ActivityController::class);
-    Route::post('activities/{activity}/toggle-status', [App\Http\Controllers\Admin\ActivityController::class, 'toggleStatus'])->name('activities.toggle-status');
+    Route::resource('activities', ActivityController::class);
+    Route::post('activities/{activity}/toggle-status', [ActivityController::class, 'toggleStatus'])->name('activities.toggle-status');
 
     // Booking Status Change (Approve/Cancel/Refund)
     Route::post('bookings/{booking}/change-status', [App\Http\Controllers\Admin\BookingController::class, 'changeStatus'])->name('bookings.changeStatus');
