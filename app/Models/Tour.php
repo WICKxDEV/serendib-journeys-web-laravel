@@ -61,6 +61,71 @@ class Tour extends Model
         return $this->hasMany(Review::class);
     }
 
+    // Calculate total price including activities
+    public function getTotalPriceAttribute()
+    {
+        $basePrice = $this->price ?? 0;
+        $activitiesPrice = $this->activities->sum('price');
+        return $basePrice + $activitiesPrice;
+    }
+
+    // Get base price (without activities)
+    public function getBasePriceAttribute()
+    {
+        return $this->price ?? 0;
+    }
+
+    // Get total activities price
+    public function getActivitiesPriceAttribute()
+    {
+        return $this->activities->sum('price');
+    }
+
+    // Get all destinations including primary
+    public function getAllDestinationsAttribute()
+    {
+        $allDestinations = collect();
+        
+        // Add primary destination first
+        if ($this->destination) {
+            $allDestinations->push($this->destination);
+        }
+        
+        // Add additional destinations
+        $additionalDestinations = $this->destinations()->orderBy('order')->get();
+        $allDestinations = $allDestinations->merge($additionalDestinations);
+        
+        return $allDestinations->unique('id');
+    }
+
+    // Get destinations list as string
+    public function getDestinationsListAttribute()
+    {
+        return $this->all_destinations->pluck('name')->join(', ');
+    }
+
+    // Get activities list as string
+    public function getActivitiesListAttribute()
+    {
+        return $this->activities->pluck('name')->join(', ');
+    }
+
+    // Get activities grouped by day
+    public function getActivitiesByDayAttribute()
+    {
+        return $this->activities()
+                    ->orderBy('pivot_day')
+                    ->orderBy('pivot_order')
+                    ->get()
+                    ->groupBy('pivot.day');
+    }
+
+    // Get destinations with order
+    public function getDestinationsWithOrderAttribute()
+    {
+        return $this->destinations()->orderBy('order')->get();
+    }
+
     public function getImagesArrayAttribute()
     {
         return $this->images ?? [];

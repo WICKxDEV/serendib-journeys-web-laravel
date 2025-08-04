@@ -157,7 +157,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="price" class="form-label">
                                     <i class="fas fa-dollar-sign me-1"></i>
-                                    Price (USD) *
+                                    Base Price (USD) *
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
@@ -169,6 +169,9 @@
                                 @error('price')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                                <div class="form-text">
+                                    <small>Base tour price (excluding activities)</small>
+                                </div>
                             </div>
 
                             <!-- Available From -->
@@ -215,6 +218,38 @@
                             <div class="form-text">
                                 <i class="fas fa-info-circle me-1"></i>
                                 Provide a detailed day-by-day itinerary for the tour.
+                            </div>
+                        </div>
+
+                        <!-- Price Summary -->
+                        <div class="mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <i class="fas fa-calculator me-2"></i>
+                                        Price Summary
+                                    </h6>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <small class="text-muted">Base Price:</small>
+                                            <div class="h5 text-primary" id="basePriceDisplay">$0.00</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <small class="text-muted">Activities Price:</small>
+                                            <div class="h5 text-info" id="activitiesPriceDisplay">$0.00</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <small class="text-muted">Total Price:</small>
+                                            <div class="h5 text-success" id="totalPriceDisplay">$0.00</div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            This is the total package price including all selected activities.
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -285,6 +320,47 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Price calculation functionality
+    const priceInput = document.getElementById('price');
+    const activityCheckboxes = document.querySelectorAll('input[name="selected_activities[]"]');
+    const basePriceDisplay = document.getElementById('basePriceDisplay');
+    const activitiesPriceDisplay = document.getElementById('activitiesPriceDisplay');
+    const totalPriceDisplay = document.getElementById('totalPriceDisplay');
+    
+    // Activity prices (passed from PHP)
+    const activityPrices = {
+        @foreach($activities as $activity)
+        {{ $activity->id }}: {{ $activity->price ?? 0 }},
+        @endforeach
+    };
+
+    function updatePriceCalculation() {
+        const basePrice = parseFloat(priceInput.value) || 0;
+        let activitiesPrice = 0;
+
+        activityCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const activityId = parseInt(checkbox.value);
+                activitiesPrice += activityPrices[activityId] || 0;
+            }
+        });
+
+        const totalPrice = basePrice + activitiesPrice;
+
+        basePriceDisplay.textContent = '$' + basePrice.toFixed(2);
+        activitiesPriceDisplay.textContent = '$' + activitiesPrice.toFixed(2);
+        totalPriceDisplay.textContent = '$' + totalPrice.toFixed(2);
+    }
+
+    // Add event listeners
+    priceInput.addEventListener('input', updatePriceCalculation);
+    activityCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updatePriceCalculation);
+    });
+
+    // Initial calculation
+    updatePriceCalculation();
 });
 </script>
 @endsection
