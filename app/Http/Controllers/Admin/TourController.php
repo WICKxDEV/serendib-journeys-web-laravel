@@ -63,14 +63,20 @@ class TourController extends Controller
             $tour->destinations()->sync($destinationData);
         }
 
-        // Sync activities
+        // Sync activities and calculate pricing
         if ($request->has('selected_activities')) {
             $activityData = [];
+            $totalActivityPrice = 0;
+            
             foreach ($request->selected_activities as $index => $activityId) {
-                $activityData[$activityId] = [
-                    'order' => $index + 1,
-                    'day' => $request->input("activity_day.{$activityId}", 1)
-                ];
+                $activity = Activity::find($activityId);
+                if ($activity) {
+                    $totalActivityPrice += $activity->price ?? 0;
+                    $activityData[$activityId] = [
+                        'order' => $index + 1,
+                        'day' => $request->input("activity_day.{$activityId}", 1)
+                    ];
+                }
             }
             $tour->activities()->sync($activityData);
         }
@@ -135,14 +141,20 @@ class TourController extends Controller
             $tour->destinations()->detach();
         }
 
-        // Sync activities
+        // Sync activities and calculate pricing
         if ($request->has('selected_activities')) {
             $activityData = [];
+            $totalActivityPrice = 0;
+            
             foreach ($request->selected_activities as $index => $activityId) {
-                $activityData[$activityId] = [
-                    'order' => $index + 1,
-                    'day' => $request->input("activity_day.{$activityId}", 1)
-                ];
+                $activity = Activity::find($activityId);
+                if ($activity) {
+                    $totalActivityPrice += $activity->price ?? 0;
+                    $activityData[$activityId] = [
+                        'order' => $index + 1,
+                        'day' => $request->input("activity_day.{$activityId}", 1)
+                    ];
+                }
             }
             $tour->activities()->sync($activityData);
         } else {

@@ -510,24 +510,52 @@
                   </div>
                   <div class="d-flex border-bottom">
                     <small class="flex-fill text-center border-end py-2">
-                      <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $package->destination->name ?? 'Multiple' }}
+                      <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                      @if($package->all_destinations->count() > 1)
+                        {{ $package->all_destinations->count() }} destinations
+                      @else
+                        {{ $package->destination->name ?? 'Multiple' }}
+                      @endif
                     </small>
                     <small class="flex-fill text-center border-end py-2">
                       <i class="fa fa-calendar-alt text-primary me-2"></i>{{ $package->duration ?? 'Flexible' }}
                     </small>
                     <small class="flex-fill text-center py-2">
-                      <i class="fa fa-user text-primary me-2"></i>Customizable
+                      <i class="fa fa-hiking text-primary me-2"></i>{{ $package->activities->count() }} activities
                     </small>
                   </div>
                   <div class="text-center p-4">
-                    <h3 class="mb-0">${{ number_format($package->price, 2) }}</h3>
+                    <div class="mb-2">
+                      @if($package->activities_price > 0)
+                        <small class="text-muted">Base Price: ${{ number_format($package->base_price, 2) }}</small><br>
+                        <small class="text-info">+ Activities: ${{ number_format($package->activities_price, 2) }}</small><br>
+                        <h3 class="text-success mb-0">Total: ${{ number_format($package->total_price, 2) }}</h3>
+                      @else
+                        <h3 class="mb-0">${{ number_format($package->total_price, 2) }}</h3>
+                      @endif
+                    </div>
                     <div class="mb-3">
                       @for($i = 1; $i <= 5; $i++)
                         <small class="fa fa-star text-primary"></small>
                       @endfor
                     </div>
                     <h5 class="mb-2">{{ $package->title }}</h5>
-                    <p>{{ Str::limit($package->description, 120) }}</p>
+                    <p>{{ Str::limit($package->description, 100) }}</p>
+                    
+                    <!-- Destinations -->
+                    @if($package->all_destinations->count() > 0)
+                    <div class="mb-2">
+                      <small class="text-muted"><strong>Destinations:</strong> {{ $package->destinations_list }}</small>
+                    </div>
+                    @endif
+                    
+                    <!-- Activities -->
+                    @if($package->activities->count() > 0)
+                    <div class="mb-2">
+                      <small class="text-muted"><strong>Activities:</strong> {{ Str::limit($package->activities_list, 80) }}</small>
+                    </div>
+                    @endif
+                    
                     <p style="font-size: 12px">
                       Note that we can customize the tour based on your budget
                     </p>
