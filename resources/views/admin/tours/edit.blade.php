@@ -16,7 +16,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.tours.update', $tour) }}" method="POST">
+                    <form action="{{ route('admin.tours.update', $tour) }}" method="POST" enctype="multipart/form-data">
                         @csrf 
                         @method('PUT')
                         
@@ -129,6 +129,48 @@
                             <div class="form-text">
                                 <i class="fas fa-info-circle me-1"></i>
                                 Provide a detailed day-by-day itinerary for the tour.
+                            </div>
+                        </div>
+
+                        <!-- Tour Images -->
+                        <div class="mb-3">
+                            <label for="images" class="form-label">
+                                <i class="fas fa-images me-1"></i>
+                                Tour Images
+                            </label>
+                            
+                            @if($tour->images_array && count($tour->images_array) > 0)
+                                <div class="mb-3">
+                                    <h6>Current Images:</h6>
+                                    <div class="row">
+                                        @foreach($tour->image_urls as $index => $imageUrl)
+                                            <div class="col-md-3 mb-2">
+                                                <div class="position-relative">
+                                                    <img src="{{ $imageUrl }}" alt="Tour image {{ $index + 1 }}" 
+                                                         class="img-thumbnail" style="width: 100%; height: 150px; object-fit: cover;">
+                                                    <div class="position-absolute top-0 end-0 p-1">
+                                                        <span class="badge bg-secondary">{{ $index + 1 }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Upload new images to replace the current ones.
+                                    </small>
+                                </div>
+                            @endif
+                            
+                            <input type="file" name="images[]" id="images" 
+                                   class="form-control @error('images.*') is-invalid @enderror" 
+                                   accept="image/*" multiple>
+                            @error('images.*')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Select multiple images (JPEG, PNG, JPG, GIF). Max 2MB per image.
                             </div>
                         </div>
 

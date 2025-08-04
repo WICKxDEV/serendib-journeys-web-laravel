@@ -19,6 +19,16 @@ Route::get('/tours/{tour}', [\App\Http\Controllers\Common\TourController::class,
 Route::view('/gallery', 'common.gallery')->name('gallery');
 Route::view('/contact', 'common.contact')->name('contact');
 
+// ✅ Blog Routes (Public)
+Route::get('/blog', [\App\Http\Controllers\Common\BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{blog:slug}', [\App\Http\Controllers\Common\BlogController::class, 'show'])->name('blog.show');
+
+// ✅ Public Booking Routes
+Route::get('/booking', [\App\Http\Controllers\Common\BookingController::class, 'showForm'])->name('booking.form');
+Route::post('/booking', [\App\Http\Controllers\Common\BookingController::class, 'submit'])->name('booking.submit');
+Route::get('/booking/payment-success', [\App\Http\Controllers\Common\BookingController::class, 'paymentSuccess'])->name('booking.payment.success');
+Route::get('/booking/payment-cancel', [\App\Http\Controllers\Common\BookingController::class, 'paymentCancel'])->name('booking.payment.cancel');
+
 // ✅ After Login Redirection based on Role
 Route::get('/dashboard', function () {
     if (auth()->user()->roles()->where('slug', 'admin')->exists()) {
@@ -47,23 +57,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
     Route::resource('reviews', App\Http\Controllers\Admin\ReviewController::class);
     Route::resource('settings', App\Http\Controllers\Admin\SettingController::class);
-
-    // Settings specific routes
-    Route::post('settings/update', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
-    Route::patch('settings/{setting}/update', [App\Http\Controllers\Admin\SettingController::class, 'updateSetting'])->name('settings.updateSetting');
+    Route::resource('guides', App\Http\Controllers\Admin\GuideController::class);
 
     // Booking Status Change (Approve/Cancel/Refund)
     Route::post('bookings/{booking}/change-status', [App\Http\Controllers\Admin\BookingController::class, 'changeStatus'])->name('bookings.changeStatus');
-
-    Route::get('/settings/create', [SettingController::class, 'create'])->name('settings.create');
-    Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');
-    Route::get('/settings/{setting}/edit', [SettingController::class, 'edit'])->name('settings.edit');
-    Route::put('/settings/{setting}', [SettingController::class, 'updateSetting'])->name('settings.update.setting');
-    Route::delete('/settings/{setting}', [SettingController::class, 'destroy'])->name('settings.destroy');
-
-    Route::get('guides', [UserController::class, 'guides'])->name('guides');
-    Route::get('guides/create', [UserController::class, 'createGuide'])->name('guides.create');
-    Route::post('guides', [UserController::class, 'storeGuide'])->name('guides.store');
 });
 
 // ✅ Customer Routes (Protected by 'customer' middleware)
@@ -76,30 +73,22 @@ Route::middleware(['auth', 'role:customer'])->prefix('customer')->name('customer
     Route::post('bookings/{booking}/cancel', [\App\Http\Controllers\Customer\BookingController::class, 'cancel'])->name('bookings.cancel');
     Route::get('bookings/create/{tour?}', [\App\Http\Controllers\Customer\BookingController::class, 'create'])->name('booking.create');
 
-    // Customer Profile Routes
-    // Route::get('profile', [App\Http\Controllers\Customer\ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('profile', [App\Http\Controllers\Customer\ProfileController::class, 'update'])->name('profile.update');
-
     // Payment Routes
     Route::post('checkout/{tour}', [App\Http\Controllers\Customer\PaymentController::class, 'checkout'])->name('payment.checkout');
     Route::post('process-payment', [App\Http\Controllers\Customer\PaymentController::class, 'processPayment'])->name('payment.process');
     Route::get('payment-success', [App\Http\Controllers\Customer\PaymentController::class, 'success'])->name('payment.success');
     Route::get('payment-cancel', [App\Http\Controllers\Customer\PaymentController::class, 'cancel'])->name('payment.cancel');
+
+    // Review Routes
+    Route::post('reviews/{tour}', [App\Http\Controllers\Customer\ReviewController::class, 'store'])->name('reviews.store');
 });
 
-// Stripe Webhook (no auth required)
-Route::post('stripe/webhook', [App\Http\Controllers\Customer\PaymentController::class, 'webhook'])->name('stripe.webhook');
-
-Route::get('/blog', [\App\Http\Controllers\Common\BlogController::class, 'index'])->name('blog.index');
-Route::get('/blog/{blog:slug}', [\App\Http\Controllers\Common\BlogController::class, 'show'])->name('blog.show');
-
+// ✅ Guide Routes (Protected by 'tour-guide' middleware)
 Route::middleware(['auth', 'role:tour-guide'])->prefix('guide')->name('guide.')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\Guide\DashboardController::class, 'index'])->name('dashboard');
 });
 
-Route::get('/booking', [\App\Http\Controllers\Common\BookingController::class, 'showForm'])->name('booking.form');
-Route::post('/booking', [\App\Http\Controllers\Common\BookingController::class, 'submit'])->name('booking.submit');
-Route::get('/booking/payment-success', [\App\Http\Controllers\Common\BookingController::class, 'paymentSuccess'])->name('booking.payment.success');
-Route::get('/booking/payment-cancel', [\App\Http\Controllers\Common\BookingController::class, 'paymentCancel'])->name('booking.payment.cancel');
+// ✅ Stripe Webhook (no auth required)
+Route::post('stripe/webhook', [App\Http\Controllers\Customer\PaymentController::class, 'webhook'])->name('stripe.webhook');
 
 require __DIR__.'/auth.php';

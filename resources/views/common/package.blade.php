@@ -237,7 +237,7 @@
           @foreach($tours as $tour)
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
               <div class="package-item">
-                <img class="img-fluid" src="{{ $tour->featured_image ?? 'img/default.jpg' }}" alt="{{ $tour->title }}" />
+                <img class="img-fluid" src="{{ $tour->image_url }}" alt="{{ $tour->title }}" />
                 <div class="d-flex border-bottom">
                   <small class="flex-fill text-center border-end py-2">
                     <i class="fa fa-map-marker-alt text-primary me-2"></i> {{ $tour->destination->name ?? 'Sri Lanka' }}
@@ -250,8 +250,9 @@
                   </small>
                 </div>
                 <div class="text-center p-4">
-                  <h3 class="mb-0">${{ $tour->price }}</h3>
-                  <p>{{ $tour->description }}</p>
+                  <h4 class="mb-2">{{ $tour->title }}</h4>
+                  <h3 class="mb-0 text-primary">${{ number_format($tour->price, 2) }}</h3>
+                  <p class="text-muted">{{ Str::limit($tour->description, 100) }}</p>
                   <div class="d-flex justify-content-center mb-2">
                     <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px">Read More</a>
                     <a href="{{ route('booking.form') }}" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0">Book Now</a>

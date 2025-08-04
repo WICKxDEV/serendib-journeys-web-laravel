@@ -11,6 +11,7 @@ use App\Models\Destination;
 use App\Models\Booking;
 use App\Models\Blog;
 use App\Models\Review;
+use App\Models\Guide;
 use Illuminate\Support\Facades\Hash;
 
 class TestDataSeeder extends Seeder
@@ -57,6 +58,8 @@ class TestDataSeeder extends Seeder
             $customer = User::create($customerData);
             $customer->roles()->attach($customerRole);
         }
+
+        // Guides are now created by GuideSeeder to avoid conflicts
 
         // Create destinations
         $destinations = [
@@ -159,6 +162,7 @@ class TestDataSeeder extends Seeder
             [
                 'user_id' => 2, // John Doe
                 'tour_id' => 1,
+                'guide_id' => 1, // Amal Perera
                 'booking_date' => now()->addDays(5),
                 'guests' => 2,
                 'total_price' => 150.00,
@@ -168,6 +172,7 @@ class TestDataSeeder extends Seeder
             [
                 'user_id' => 2, // John Doe
                 'tour_id' => 3,
+                'guide_id' => 3, // Ravi Silva
                 'booking_date' => now()->addDays(10),
                 'guests' => 1,
                 'total_price' => 120.00,
@@ -177,6 +182,7 @@ class TestDataSeeder extends Seeder
             [
                 'user_id' => 3, // Jane Smith
                 'tour_id' => 2,
+                'guide_id' => 1, // Amal Perera
                 'booking_date' => now()->addDays(3),
                 'guests' => 3,
                 'total_price' => 180.00,
@@ -195,6 +201,7 @@ class TestDataSeeder extends Seeder
             [
                 'user_id' => 4, // Mike Johnson
                 'tour_id' => 5,
+                'guide_id' => 2, // Priya Fernando
                 'booking_date' => now()->addDays(7),
                 'guests' => 4,
                 'total_price' => 380.00,

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Tour;
 use App\Models\User;
+use App\Models\Guide;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -70,9 +71,7 @@ class BookingController extends Controller
             $query->where('slug', 'customer');
         })->get();
         $tours = Tour::all();
-        $guides = User::whereHas('roles', function($query) {
-            $query->where('slug', 'tour-guide');
-        })->get();
+        $guides = Guide::where('is_active', true)->get();
         return view('admin.bookings.create', compact('users', 'tours', 'guides'));
     }
 
@@ -89,7 +88,7 @@ class BookingController extends Controller
             'total_price' => 'required|numeric|min:0',
             'status' => 'required|in:pending,approved,cancelled',
             'payment_status' => 'required|in:unpaid,paid,refunded',
-            'guide_id' => 'nullable|exists:users,id',
+            'guide_id' => 'nullable|exists:guides,id',
         ]);
 
         Booking::create($request->all());
@@ -116,9 +115,7 @@ class BookingController extends Controller
             $query->where('slug', 'customer');
         })->get();
         $tours = Tour::all();
-        $guides = User::whereHas('roles', function($query) {
-            $query->where('slug', 'tour-guide');
-        })->get();
+        $guides = Guide::where('is_active', true)->get();
         return view('admin.bookings.edit', compact('booking', 'users', 'tours', 'guides'));
     }
 
@@ -135,7 +132,7 @@ class BookingController extends Controller
             'total_price' => 'required|numeric|min:0',
             'status' => 'required|in:pending,approved,cancelled',
             'payment_status' => 'required|in:unpaid,paid,refunded',
-            'guide_id' => 'nullable|exists:users,id',
+            'guide_id' => 'nullable|exists:guides,id',
         ]);
 
         $booking->update($request->all());

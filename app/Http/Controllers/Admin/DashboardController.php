@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\Tour;
 use App\Models\User;
 use App\Models\Blog;
+use App\Models\Guide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -25,6 +26,7 @@ class DashboardController extends Controller
         })->count();
         $totalTours = Tour::count();
         $totalBlogs = Blog::count();
+        $totalGuides = Guide::where('is_active', true)->count();
 
         // Get monthly booking data for chart
         $monthlyBookings = Booking::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
@@ -82,6 +84,7 @@ class DashboardController extends Controller
             'totalUsers',
             'totalTours',
             'totalBlogs',
+            'totalGuides',
             'monthlyData',
             'revenueData',
             'bookingStatusData',

@@ -21,15 +21,25 @@ class BookingController extends Controller
     public function store(Request $request, Tour $tour)
     {
         $request->validate([
-            'guests' => 'required|integer|min:1'
+            'guests' => 'required|integer|min:1',
+            'booking_date' => 'required|date|after_or_equal:today',
+            'guest_name' => 'required|string|max:255',
+            'guest_email' => 'required|email|max:255',
+            'guest_phone' => 'nullable|string|max:20',
+            'special_requests' => 'nullable|string',
         ]);
 
         $booking = Booking::create([
             'user_id' => auth()->id(),
             'tour_id' => $tour->id,
+            'booking_date' => $request->booking_date,
             'status' => 'pending',
             'total_price' => $tour->price * $request->guests,
             'guests' => $request->guests,
+            'guest_name' => $request->guest_name,
+            'guest_email' => $request->guest_email,
+            'guest_phone' => $request->guest_phone,
+            'special_requests' => $request->special_requests,
         ]);
 
         // Notify customer

@@ -12,6 +12,7 @@ class Booking extends Model
     protected $fillable = [
         'user_id', 
         'tour_id', 
+        'guide_id',
         'booking_date', 
         'guests',
         'status', 
@@ -46,6 +47,6 @@ class Booking extends Model
 
     public function guide()
     {
-        return $this->belongsTo(User::class, 'guide_id');
+        return $this->belongsTo(Guide::class);
     }
 }
