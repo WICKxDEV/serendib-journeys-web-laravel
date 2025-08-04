@@ -304,106 +304,102 @@
           <h1 class="mb-5">Meet Our Guides</h1>
         </div>
         <div class="row g-4 align-items-center justify-content-center">
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="team-item">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="img/team-1.jpg" alt="" />
+          @if($guides->count() > 0)
+            @foreach($guides as $index => $guide)
+              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="{{ ($index * 0.2) + 0.1 }}s">
+                <div class="team-item">
+                  <div class="overflow-hidden">
+                    <img class="img-fluid" src="{{ $guide->profile_photo_url }}" alt="{{ $guide->name }}" />
+                  </div>
+                  <div
+                    class="position-relative d-flex justify-content-center"
+                    style="margin-top: -19px"
+                  >
+                    @if($guide->phone)
+                    <a class="btn btn-square mx-1" href="tel:{{ $guide->phone }}" title="Call {{ $guide->name }}"
+                      ><i class="fa fa-phone"></i
+                    ></a>
+                    @endif
+                    @if($guide->phone)
+                    <a class="btn btn-square mx-1" href="https://wa.me/{{ $guide->phone }}" target="_blank" title="WhatsApp {{ $guide->name }}"
+                      ><i class="fab fa-whatsapp fw-normal"></i
+                    ></a>
+                    @endif
+                    @if($guide->email)
+                    <a class="btn btn-square mx-1" href="mailto:{{ $guide->email }}" title="Email {{ $guide->name }}"
+                      ><i class="fa fa-envelope"></i
+                    ></a>
+                    @endif
+                  </div>
+                  <div class="text-center p-4">
+                    <h5 class="mb-0">{{ $guide->name }}</h5>
+                    <small>{{ $guide->specializations ?? 'Tour Guide' }}</small>
+                    @if($guide->languages_list)
+                    <p class="text-muted small mt-2">Languages: {{ $guide->languages_list }}</p>
+                    @endif
+                    @if($guide->experience_years)
+                    <p class="text-muted small">{{ $guide->experience_years }} years experience</p>
+                    @endif
+                    @if($guide->bio)
+                    <p class="text-muted small mt-2">{{ Str::limit($guide->bio, 100) }}</p>
+                    @endif
+                  </div>
+                </div>
               </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -19px"
-              >
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-whatsapp fw-normal"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Isuru Wickramasinghe</h5>
-                <small>Chauffeur & Guide</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="team-item">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="img/team-2.jpg" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -19px"
-              >
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-whatsapp fw-normal"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Chinthaka Senarath</h5>
-                <small>Chauffeur & Guide</small>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="team-item">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="img/team-3.jpg" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -19px"
-              >
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-whatsapp fw-normal"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Dulmini Gamage</h5>
-                <small>Guide</small>
+            @endforeach
+          @else
+            <!-- Fallback guides when no guides are available -->
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div class="team-item">
+                <div class="overflow-hidden">
+                  <img class="img-fluid" src="img/team-1.jpg" alt="Professional Guide" />
+                </div>
+                <div
+                  class="position-relative d-flex justify-content-center"
+                  style="margin-top: -19px"
+                >
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-facebook-f"></i
+                  ></a>
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-whatsapp fw-normal"></i
+                  ></a>
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-instagram"></i
+                  ></a>
+                </div>
+                <div class="text-center p-4">
+                  <h5 class="mb-0">Professional Guide</h5>
+                  <small>Chauffeur & Guide</small>
+                </div>
               </div>
             </div>
-          </div> -->
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="team-item">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="img/team-4.jpg" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -19px"
-              >
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-whatsapp fw-normal"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Rashmi Tharangani</h5>
-                <small>Guide</small>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+              <div class="team-item">
+                <div class="overflow-hidden">
+                  <img class="img-fluid" src="img/team-2.jpg" alt="Expert Guide" />
+                </div>
+                <div
+                  class="position-relative d-flex justify-content-center"
+                  style="margin-top: -19px"
+                >
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-facebook-f"></i
+                  ></a>
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-whatsapp fw-normal"></i
+                  ></a>
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-instagram"></i
+                  ></a>
+                </div>
+                <div class="text-center p-4">
+                  <h5 class="mb-0">Expert Guide</h5>
+                  <small>Tour Guide</small>
+                </div>
               </div>
             </div>
-          </div>
+          @endif
         </div>
       </div>
     </div>

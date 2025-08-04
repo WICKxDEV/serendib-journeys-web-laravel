@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Tour;
 use App\Models\Destination;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,14 +13,15 @@ class TourController extends Controller
 {
     public function index()
     {
-        $tours = Tour::with('destination')->get();
+        $tours = Tour::with(['destination', 'destinations', 'activities'])->get();
         return view('admin.tours.index', compact('tours'));
     }
 
     public function create()
     {
         $destinations = Destination::all();
-        return view('admin.tours.create', compact('destinations'));
+        $activities = Activity::where('is_active', true)->get();
+        return view('admin.tours.create', compact('destinations', 'activities'));
     }
 
     public function store(Request $request)
@@ -33,6 +35,10 @@ class TourController extends Controller
             'available_from' => 'required|date',
             'available_to' => 'required|date|after_or_equal:available_from',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'additional_destinations' => 'nullable|array',
+            'additional_destinations.*' => 'exists:destinations,id',
+            'selected_activities' => 'nullable|array',
+            'selected_activities.*' => 'exists:activities,id',
         ]);
 
         $data = $request->all();
@@ -46,7 +52,28 @@ class TourController extends Controller
         }
 
         $data['images'] = $images;
-        Tour::create($data);
+        $tour = Tour::create($data);
+
+        // Sync additional destinations
+        if ($request->has('additional_destinations')) {
+            $destinationData = [];
+            foreach ($request->additional_destinations as $index => $destinationId) {
+                $destinationData[$destinationId] = ['order' => $index + 1];
+            }
+            $tour->destinations()->sync($destinationData);
+        }
+
+        // Sync activities
+        if ($request->has('selected_activities')) {
+            $activityData = [];
+            foreach ($request->selected_activities as $index => $activityId) {
+                $activityData[$activityId] = [
+                    'order' => $index + 1,
+                    'day' => $request->input("activity_day.{$activityId}", 1)
+                ];
+            }
+            $tour->activities()->sync($activityData);
+        }
         
         return redirect()->route('admin.tours.index')->with('success', 'Tour created.');
     }
@@ -54,7 +81,9 @@ class TourController extends Controller
     public function edit(Tour $tour)
     {
         $destinations = Destination::all();
-        return view('admin.tours.edit', compact('tour', 'destinations'));
+        $activities = Activity::where('is_active', true)->get();
+        $tour->load(['destinations', 'activities']);
+        return view('admin.tours.edit', compact('tour', 'destinations', 'activities'));
     }
 
     public function update(Request $request, Tour $tour)
@@ -68,6 +97,10 @@ class TourController extends Controller
             'available_from' => 'required|date',
             'available_to' => 'required|date|after_or_equal:available_from',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'additional_destinations' => 'nullable|array',
+            'additional_destinations.*' => 'exists:destinations,id',
+            'selected_activities' => 'nullable|array',
+            'selected_activities.*' => 'exists:activities,id',
         ]);
 
         $data = $request->all();
@@ -90,6 +123,31 @@ class TourController extends Controller
 
         $data['images'] = $images;
         $tour->update($data);
+
+        // Sync additional destinations
+        if ($request->has('additional_destinations')) {
+            $destinationData = [];
+            foreach ($request->additional_destinations as $index => $destinationId) {
+                $destinationData[$destinationId] = ['order' => $index + 1];
+            }
+            $tour->destinations()->sync($destinationData);
+        } else {
+            $tour->destinations()->detach();
+        }
+
+        // Sync activities
+        if ($request->has('selected_activities')) {
+            $activityData = [];
+            foreach ($request->selected_activities as $index => $activityId) {
+                $activityData[$activityId] = [
+                    'order' => $index + 1,
+                    'day' => $request->input("activity_day.{$activityId}", 1)
+                ];
+            }
+            $tour->activities()->sync($activityData);
+        } else {
+            $tour->activities()->detach();
+        }
         
         return redirect()->route('admin.tours.index')->with('success', 'Tour updated.');
     }

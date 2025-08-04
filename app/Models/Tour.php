@@ -17,7 +17,10 @@ class Tour extends Model
         'itinerary', 
         'images',
         'available_from', 
-        'available_to'
+        'available_to',
+        'duration',
+        'max_guests',
+        'difficulty_level'
     ];
 
     protected $casts = [
@@ -30,6 +33,22 @@ class Tour extends Model
     public function destination()
     {
         return $this->belongsTo(Destination::class);
+    }
+
+    // Many-to-many relationship for multiple destinations
+    public function destinations()
+    {
+        return $this->belongsToMany(Destination::class, 'tour_destinations')
+                    ->withPivot('order', 'arrival_date', 'departure_date', 'notes')
+                    ->withTimestamps();
+    }
+
+    // Many-to-many relationship for activities
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'tour_activities')
+                    ->withPivot('order', 'day', 'start_time', 'end_time', 'notes')
+                    ->withTimestamps();
     }
 
     public function bookings()
