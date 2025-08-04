@@ -501,368 +501,108 @@
           <h1 class="mb-5">Awesome Packages</h1>
         </div>
         <div class="row g-4 justify-content-center">
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="package-item">
-              <div
-                id="carouselExample"
-                class="carousel slide carousel-fade"
-                data-ride="carousel"
-                data-interval="3000"
-                data-pause="hover"
-              >
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img class="img-fluid" src="img/sigiriya-1.jpg" alt="" />
+          @if($packages->count() > 0)
+            @foreach($packages as $index => $package)
+              <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="{{ ($index * 0.1) + 0.1 }}s">
+                <div class="package-item">
+                  <div class="overflow-hidden">
+                    <img class="img-fluid" src="{{ $package->image_url }}" alt="{{ $package->title }}" />
                   </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-3.jpg" alt="" />
+                  <div class="d-flex border-bottom">
+                    <small class="flex-fill text-center border-end py-2">
+                      <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $package->destination->name ?? 'Multiple' }}
+                    </small>
+                    <small class="flex-fill text-center border-end py-2">
+                      <i class="fa fa-calendar-alt text-primary me-2"></i>{{ $package->duration ?? 'Flexible' }}
+                    </small>
+                    <small class="flex-fill text-center py-2">
+                      <i class="fa fa-user text-primary me-2"></i>Customizable
+                    </small>
                   </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-5.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-6.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-3.jpg" alt="" />
+                  <div class="text-center p-4">
+                    <h3 class="mb-0">${{ number_format($package->price, 2) }}</h3>
+                    <div class="mb-3">
+                      @for($i = 1; $i <= 5; $i++)
+                        <small class="fa fa-star text-primary"></small>
+                      @endfor
+                    </div>
+                    <h5 class="mb-2">{{ $package->title }}</h5>
+                    <p>{{ Str::limit($package->description, 120) }}</p>
+                    <p style="font-size: 12px">
+                      Note that we can customize the tour based on your budget
+                    </p>
+                    <div class="d-flex justify-content-center mb-2">
+                      <a
+                        href="{{ route('tours.show', $package) }}"
+                        class="btn btn-sm btn-primary px-3 border-end"
+                        style="border-radius: 30px 0 0 30px"
+                        >Read More</a
+                      >
+                      <a
+                        href="{{ route('booking.form') }}"
+                        class="btn btn-sm btn-primary px-3"
+                        style="border-radius: 0 30px 30px 0"
+                        >Book Now</a
+                      >
+                    </div>
                   </div>
                 </div>
-                <a
-                  class="carousel-control-prev"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a
-                  class="carousel-control-next"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Next</span>
-                </a>
               </div>
-              <div class="d-flex border-bottom">
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-car text-primary me-2"></i> Short and Sweet
-                </small>
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-calendar-alt text-primary me-2"></i> 3 days
-                </small>
-                <small class="flex-fill text-center py-2">
-                  <i class="fa fa-user text-primary me-2"></i> Customizable
-                </small>
-              </div>
-              <div class="text-center p-4">
-                <h3 class="mb-0">$349.00</h3>
-                <div class="mb-3">
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
+              @if($loop->iteration >= 3) @break @endif
+            @endforeach
+          @else
+            <!-- Fallback packages when no tours are available -->
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div class="package-item">
+                <div class="overflow-hidden">
+                  <img class="img-fluid" src="img/sigiriya-1.jpg" alt="Short and Sweet Tour" />
                 </div>
-                <p>
-                  A quick getaway to explore Sri Lanka's iconic sights in just 3
-                  days, featuring Sigiriya, Kandy, and Mirissa with related
-                  activities.
-                </p>
-                <p style="font-size: 12px">
-                  Note that we can customize the tour based on your budget
-                </p>
-                <div class="d-flex justify-content-center mb-2">
-                  <a
-                    href="itinerary.html"
-                    class="btn btn-sm btn-primary px-3 border-end"
-                    style="border-radius: 30px 0 0 30px"
-                    >Read More</a
-                  >
-                  <a
-                    href="https://docs.google.com/forms/d/1ZCbUIeAIoT1xth3A4rN3XnP0q_A1EdX45BpyEPf7qZ0/"
-                    class="btn btn-sm btn-primary px-3"
-                    style="border-radius: 0 30px 30px 0"
-                    >Book Now</a
-                  >
+                <div class="d-flex border-bottom">
+                  <small class="flex-fill text-center border-end py-2">
+                    <i class="fa fa-car text-primary me-2"></i> Short and Sweet
+                  </small>
+                  <small class="flex-fill text-center border-end py-2">
+                    <i class="fa fa-calendar-alt text-primary me-2"></i> 3 days
+                  </small>
+                  <small class="flex-fill text-center py-2">
+                    <i class="fa fa-user text-primary me-2"></i> Customizable
+                  </small>
+                </div>
+                <div class="text-center p-4">
+                  <h3 class="mb-0">$349.00</h3>
+                  <div class="mb-3">
+                    <small class="fa fa-star text-primary"></small>
+                    <small class="fa fa-star text-primary"></small>
+                    <small class="fa fa-star text-primary"></small>
+                    <small class="fa fa-star text-primary"></small>
+                    <small class="fa fa-star text-primary"></small>
+                  </div>
+                  <p>
+                    A quick getaway to explore Sri Lanka's iconic sights in just 3
+                    days, featuring Sigiriya, Kandy, and Mirissa with related
+                    activities.
+                  </p>
+                  <p style="font-size: 12px">
+                    Note that we can customize the tour based on your budget
+                  </p>
+                  <div class="d-flex justify-content-center mb-2">
+                    <a
+                      href="{{ route('packages') }}"
+                      class="btn btn-sm btn-primary px-3 border-end"
+                      style="border-radius: 30px 0 0 30px"
+                      >Read More</a
+                    >
+                    <a
+                      href="{{ route('booking.form') }}"
+                      class="btn btn-sm btn-primary px-3"
+                      style="border-radius: 0 30px 30px 0"
+                      >Book Now</a
+                    >
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-            <div class="package-item">
-              <div
-                id="carouselExample"
-                class="carousel slide carousel-fade"
-                data-ride="carousel"
-                data-interval="3000"
-                data-pause="hover"
-              >
-                <div class="carousel-inner">
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item active">
-                    <img class="img-fluid" src="img/sigiriya-5.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-6.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-3.jpg" alt="" />
-                  </div>
-                </div>
-                <a
-                  class="carousel-control-prev"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a
-                  class="carousel-control-next"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </div>
-              <div class="d-flex border-bottom">
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-car text-primary me-2"></i> Nature Escape
-                </small>
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-calendar-alt text-primary me-2"></i> 6 days
-                </small>
-                <small class="flex-fill text-center py-2">
-                  <i class="fa fa-user text-primary me-2"></i> Customizable
-                </small>
-              </div>
-              <div class="text-center p-4">
-                <h3 class="mb-0">$639.00</h3>
-                <div class="mb-3">
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                </div>
-                <p>
-                  Discover Sri Lanka's breathtaking landscapes in this 6 day
-                  adventure, from lush tea plantations to wildlife safaris.
-                </p>
-                <p style="font-size: 12px">
-                  Note that we can customize the tour based on your budget
-                </p>
-                <div class="d-flex justify-content-center mb-2">
-                  <a
-                    href="itinerary.html"
-                    class="btn btn-sm btn-primary px-3 border-end"
-                    style="border-radius: 30px 0 0 30px"
-                    >Read More</a
-                  >
-                  <a
-                    href="https://docs.google.com/forms/d/1ZCbUIeAIoT1xth3A4rN3XnP0q_A1EdX45BpyEPf7qZ0/"
-                    class="btn btn-sm btn-primary px-3"
-                    style="border-radius: 0 30px 30px 0"
-                    >Book Now</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="package-item">
-              <div
-                id="carouselExample"
-                class="carousel slide carousel-fade"
-                data-ride="carousel"
-                data-interval="3000"
-                data-pause="hover"
-              >
-                <div class="carousel-inner">
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/sigiriya-5.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item active">
-                    <img class="img-fluid" src="img/kandy-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/kandy-6.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-3.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/mirissa-4.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-1.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-2.jpg" alt="" />
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="img/maduriver-3.jpg" alt="" />
-                  </div>
-                </div>
-                <a
-                  class="carousel-control-prev"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a
-                  class="carousel-control-next"
-                  href="#carouselExample"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </div>
-              <div class="d-flex border-bottom">
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-car text-primary me-2"></i> Heritage Quest
-                </small>
-                <small class="flex-fill text-center border-end py-2">
-                  <i class="fa fa-calendar-alt text-primary me-2"></i> 12 days
-                </small>
-                <small class="flex-fill text-center py-2">
-                  <i class="fa fa-user text-primary me-2"></i> Customizable
-                </small>
-              </div>
-              <div class="text-center p-4">
-                <h3 class="mb-0">$1249.00</h3>
-                <div class="mb-3">
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                </div>
-                <p>
-                  Immerse yourself in Sri Lanka's rich culture and history over
-                  12 days, visiting ancient cities and sacred sites relax and
-                  calmly.
-                </p>
-                <p style="font-size: 12px">
-                  Note that we can customize the tour based on your budget
-                </p>
-                <div class="d-flex justify-content-center mb-2">
-                  <a
-                    href="itinerary.html"
-                    class="btn btn-sm btn-primary px-3 border-end"
-                    style="border-radius: 30px 0 0 30px"
-                    >Read More</a
-                  >
-                  <a
-                    href="https://docs.google.com/forms/d/1ZCbUIeAIoT1xth3A4rN3XnP0q_A1EdX45BpyEPf7qZ0/"
-                    class="btn btn-sm btn-primary px-3"
-                    style="border-radius: 0 30px 30px 0"
-                    >Book Now</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
+          @endif
         </div>
       </div>
     </div>
@@ -988,106 +728,99 @@
           <h1 class="mb-5">Meet Our Guides</h1>
         </div>
         <div class="row g-4 align-items-center justify-content-center">
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="team-item">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="img/team-1.jpg" alt="" />
+          @if($guides->count() > 0)
+            @foreach($guides as $index => $guide)
+              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="{{ ($index * 0.2) + 0.1 }}s">
+                <div class="team-item">
+                  <div class="overflow-hidden">
+                    <img class="img-fluid" src="{{ $guide->profile_photo_url }}" alt="{{ $guide->name }}" />
+                  </div>
+                  <div
+                    class="position-relative d-flex justify-content-center"
+                    style="margin-top: -19px"
+                  >
+                    @if($guide->phone)
+                    <a class="btn btn-square mx-1" href="tel:{{ $guide->phone }}" title="Call {{ $guide->name }}"
+                      ><i class="fa fa-phone"></i
+                    ></a>
+                    @endif
+                    @if($guide->phone)
+                    <a class="btn btn-square mx-1" href="https://wa.me/{{ $guide->phone }}" target="_blank" title="WhatsApp {{ $guide->name }}"
+                      ><i class="fab fa-whatsapp fw-normal"></i
+                    ></a>
+                    @endif
+                    @if($guide->email)
+                    <a class="btn btn-square mx-1" href="mailto:{{ $guide->email }}" title="Email {{ $guide->name }}"
+                      ><i class="fa fa-envelope"></i
+                    ></a>
+                    @endif
+                  </div>
+                  <div class="text-center p-4">
+                    <h5 class="mb-0">{{ $guide->name }}</h5>
+                    <small>{{ $guide->specializations ?? 'Tour Guide' }}</small>
+                    @if($guide->languages_list)
+                    <p class="text-muted small mt-2">Languages: {{ $guide->languages_list }}</p>
+                    @endif
+                    @if($guide->experience_years)
+                    <p class="text-muted small">{{ $guide->experience_years }} years experience</p>
+                    @endif
+                  </div>
+                </div>
               </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -19px"
-              >
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-whatsapp fw-normal"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Isuru Wickramasinghe</h5>
-                <small>Chauffeur & Guide</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="team-item">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="img/team-2.jpg" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -19px"
-              >
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-whatsapp fw-normal"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Chinthaka Senarath</h5>
-                <small>Chauffeur & Guide</small>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="team-item">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="img/team-3.jpg" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -19px"
-              >
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-whatsapp fw-normal"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Dulmini Gamage</h5>
-                <small>Guide</small>
+            @endforeach
+          @else
+            <!-- Fallback guides when no guides are available -->
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div class="team-item">
+                <div class="overflow-hidden">
+                  <img class="img-fluid" src="img/team-1.jpg" alt="Professional Guide" />
+                </div>
+                <div
+                  class="position-relative d-flex justify-content-center"
+                  style="margin-top: -19px"
+                >
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-facebook-f"></i
+                  ></a>
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-whatsapp fw-normal"></i
+                  ></a>
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-instagram"></i
+                  ></a>
+                </div>
+                <div class="text-center p-4">
+                  <h5 class="mb-0">Professional Guide</h5>
+                  <small>Chauffeur & Guide</small>
+                </div>
               </div>
             </div>
-          </div> -->
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="team-item">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="img/team-4.jpg" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -19px"
-              >
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-whatsapp fw-normal"></i
-                ></a>
-                <a class="btn btn-square mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Rashmi Tharangani</h5>
-                <small>Guide</small>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+              <div class="team-item">
+                <div class="overflow-hidden">
+                  <img class="img-fluid" src="img/team-2.jpg" alt="Expert Guide" />
+                </div>
+                <div
+                  class="position-relative d-flex justify-content-center"
+                  style="margin-top: -19px"
+                >
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-facebook-f"></i
+                  ></a>
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-whatsapp fw-normal"></i
+                  ></a>
+                  <a class="btn btn-square mx-1" href=""
+                    ><i class="fab fa-instagram"></i
+                  ></a>
+                </div>
+                <div class="text-center p-4">
+                  <h5 class="mb-0">Expert Guide</h5>
+                  <small>Tour Guide</small>
+                </div>
               </div>
             </div>
-          </div>
+          @endif
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\UserController;
 // ✅ Public Home Page (Common)
 Route::get('/', [\App\Http\Controllers\Common\HomeController::class, 'index'])->name('home');
 
-Route::view('/about', 'common.about')->name('about');
+Route::get('/about', [\App\Http\Controllers\Common\AboutController::class, 'index'])->name('about');
 Route::get('/services', [\App\Http\Controllers\Common\ServiceController::class, 'index'])->name('services');
 Route::get('/packages', [\App\Http\Controllers\Common\TourController::class, 'index'])->name('packages');
 Route::get('/tours/{tour}', [\App\Http\Controllers\Common\TourController::class, 'show'])->name('tours.show');
@@ -57,6 +57,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
     Route::resource('reviews', App\Http\Controllers\Admin\ReviewController::class);
     Route::resource('settings', App\Http\Controllers\Admin\SettingController::class);
+    Route::post('settings/bulk/update', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update.bulk');
     Route::resource('guides', App\Http\Controllers\Admin\GuideController::class);
 
     // Booking Status Change (Approve/Cancel/Refund)

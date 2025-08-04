@@ -34,7 +34,7 @@
                      id="{{ $groupKey }}" 
                      role="tabpanel">
                     
-                    <form action="{{ route('admin.settings.update') }}" method="POST">
+                    <form action="{{ route('admin.settings.update.bulk') }}" method="POST">
                         @csrf
                         
                         @if(isset($settings[$groupKey]) && $settings[$groupKey]->count() > 0)

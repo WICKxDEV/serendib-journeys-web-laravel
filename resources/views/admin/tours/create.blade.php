@@ -20,14 +20,14 @@
                         @csrf
                         
                         <div class="row">
-                            <!-- Destination Selection -->
+                            <!-- Primary Destination Selection -->
                             <div class="col-md-6 mb-3">
                                 <label for="destination_id" class="form-label">
                                     <i class="fas fa-map-marker-alt me-1"></i>
-                                    Destination *
+                                    Primary Destination *
                                 </label>
                                 <select name="destination_id" id="destination_id" class="form-select @error('destination_id') is-invalid @enderror" required>
-                                    <option value="">Select Destination</option>
+                                    <option value="">Select Primary Destination</option>
                                     @foreach($destinations as $destination)
                                         <option value="{{ $destination->id }}" {{ old('destination_id') == $destination->id ? 'selected' : '' }}>
                                             {{ $destination->name }}
@@ -51,6 +51,90 @@
                                 @error('title')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <!-- Additional Destinations -->
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-map-marked-alt me-1"></i>
+                                Additional Destinations
+                            </label>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="destinations-container">
+                                        <div class="row mb-2">
+                                            @foreach($destinations as $destination)
+                                            <div class="col-md-3 mb-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" 
+                                                           name="additional_destinations[]" 
+                                                           value="{{ $destination->id }}" 
+                                                           id="dest_{{ $destination->id }}">
+                                                    <label class="form-check-label" for="dest_{{ $destination->id }}">
+                                                        {{ $destination->name }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">Select additional destinations for this tour package</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tour Activities -->
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-hiking me-1"></i>
+                                Tour Activities
+                            </label>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="activities-container">
+                                        @if($activities->count() > 0)
+                                            <div class="row">
+                                                @foreach($activities as $activity)
+                                                <div class="col-md-4 mb-3">
+                                                    <div class="card border-light">
+                                                        <div class="card-body p-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" 
+                                                                       name="selected_activities[]" 
+                                                                       value="{{ $activity->id }}" 
+                                                                       id="activity_{{ $activity->id }}">
+                                                                <label class="form-check-label" for="activity_{{ $activity->id }}">
+                                                                    <strong>{{ $activity->name }}</strong>
+                                                                </label>
+                                                            </div>
+                                                            @if($activity->description)
+                                                            <small class="text-muted d-block mt-1">{{ Str::limit($activity->description, 60) }}</small>
+                                                            @endif
+                                                            @if($activity->duration)
+                                                            <small class="text-info d-block">Duration: {{ $activity->duration }}</small>
+                                                            @endif
+                                                            @if($activity->price)
+                                                            <small class="text-success d-block">Price: ${{ number_format($activity->price, 2) }}</small>
+                                                            @endif
+                                                            <div class="mt-2">
+                                                                <label class="form-label small">Day:</label>
+                                                                <input type="number" name="activity_day[{{ $activity->id }}]" 
+                                                                       class="form-control form-control-sm" 
+                                                                       value="1" min="1" max="30" 
+                                                                       style="width: 70px; display: inline-block;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <p class="text-muted">No activities available. <a href="{{ route('admin.activities.create') }}">Create activities first</a>.</p>
+                                        @endif
+                                    </div>
+                                    <small class="text-muted">Select activities that will be included in this tour</small>
+                                </div>
                             </div>
                         </div>
 
@@ -185,6 +269,21 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Available To date must be after Available From date');
             this.value = '';
         }
+    });
+
+    // Handle primary destination change to avoid duplication in additional destinations
+    const primaryDestination = document.getElementById('destination_id');
+    const additionalDestinations = document.querySelectorAll('input[name="additional_destinations[]"]');
+
+    primaryDestination.addEventListener('change', function() {
+        additionalDestinations.forEach(checkbox => {
+            if (checkbox.value === this.value) {
+                checkbox.checked = false;
+                checkbox.disabled = true;
+            } else {
+                checkbox.disabled = false;
+            }
+        });
     });
 });
 </script>

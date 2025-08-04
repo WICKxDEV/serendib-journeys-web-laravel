@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Review;
 use App\Models\Tour;
 use App\Models\Destination;
+use App\Models\Guide;
 use App\Models\Setting;
 
 class HomeController extends Controller
@@ -19,8 +20,8 @@ class HomeController extends Controller
             ->take(6)
             ->get();
 
-        // Get featured tours
-        $featuredTours = Tour::with('destination')
+        // Get featured tours/packages
+        $packages = Tour::with('destination')
             ->latest()
             ->take(6)
             ->get();
@@ -31,9 +32,15 @@ class HomeController extends Controller
             ->take(8)
             ->get();
 
+        // Get active tour guides for team section
+        $guides = Guide::where('is_active', true)
+            ->latest()
+            ->take(4)
+            ->get();
+
         // Get settings for dynamic content
         $settings = Setting::pluck('value', 'key')->toArray();
 
-        return view('common.home', compact('reviews', 'featuredTours', 'destinations', 'settings'));
+        return view('common.home', compact('reviews', 'packages', 'destinations', 'guides', 'settings'));
     }
 }
