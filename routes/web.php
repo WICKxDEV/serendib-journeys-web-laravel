@@ -10,12 +10,10 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 
 // ✅ Public Home Page (Common)
-Route::get('/', function () {
-    return view('common.home');
-})->name('home');
+Route::get('/', [\App\Http\Controllers\Common\HomeController::class, 'index'])->name('home');
 
 Route::view('/about', 'common.about')->name('about');
-Route::view('/services', 'common.service')->name('services');
+Route::get('/services', [\App\Http\Controllers\Common\ServiceController::class, 'index'])->name('services');
 Route::get('/packages', [\App\Http\Controllers\Common\TourController::class, 'index'])->name('packages');
 Route::get('/tours/{tour}', [\App\Http\Controllers\Common\TourController::class, 'show'])->name('tours.show');
 Route::view('/gallery', 'common.gallery')->name('gallery');

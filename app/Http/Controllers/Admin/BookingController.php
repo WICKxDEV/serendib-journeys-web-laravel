@@ -13,11 +13,50 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bookings = Booking::with(['user', 'tour'])
-            ->latest()
-            ->paginate(15);
+        $query = Booking::with(['user', 'tour', 'guide']);
+
+        // Search functionality
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('id', 'LIKE', "%{$search}%")
+                  ->orWhere('guest_name', 'LIKE', "%{$search}%")
+                  ->orWhere('guest_email', 'LIKE', "%{$search}%")
+                  ->orWhereHas('user', function($userQuery) use ($search) {
+                      $userQuery->where('name', 'LIKE', "%{$search}%")
+                                ->orWhere('email', 'LIKE', "%{$search}%");
+                  })
+                  ->orWhereHas('tour', function($tourQuery) use ($search) {
+                      $tourQuery->where('title', 'LIKE', "%{$search}%")
+                                ->orWhereHas('destination', function($destQuery) use ($search) {
+                                    $destQuery->where('name', 'LIKE', "%{$search}%");
+                                });
+                  });
+            });
+        }
+
+        // Status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Payment status filter
+        if ($request->filled('payment_status')) {
+            $query->where('payment_status', $request->payment_status);
+        }
+
+        // Date range filter
+        if ($request->filled('date_from')) {
+            $query->where('booking_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->where('booking_date', '<=', $request->date_to);
+        }
+
+        $bookings = $query->latest()->paginate(15);
         
         return view('admin.bookings.index', compact('bookings'));
     }

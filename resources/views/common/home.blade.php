@@ -1100,77 +1100,115 @@
           <h6 class="bg-white text-center text-primary-new px-3">
             Testimonial
           </h6>
-          <!-- <h1 class="mb-5">Our Clients Say!!!</h1> -->
+          <h1 class="mb-5">What Our Clients Say!!!</h1>
         </div>
-        <!-- <div class="owl-carousel testimonial-carousel position-relative">
-          <div class="testimonial-item bg-white text-center border p-4">
-            <img
-              class="bg-white rounded-circle shadow p-1 mx-auto mb-3"
-              src="img/testimonial-1.jpg"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Sarah K</h5>
-            <p>Emirates, UAE</p>
-            <p class="mb-0">
-              A truly unforgettable experience! Serendib Journeys organized
-              everything perfectly, from the scenic tour of Sigiriya to the
-              relaxing beach days in Mirissa. Our guide was professional,
-              friendly, and knowledgeable, making the entire trip enjoyable and
-              stress-free. Highly recommend for anyone visiting Sri Lanka!
-            </p>
+        
+        @if($reviews->count() > 0)
+          <div class="owl-carousel testimonial-carousel position-relative">
+            @foreach($reviews as $review)
+              <div class="testimonial-item bg-white text-center border p-4">
+                <div class="mb-3">
+                  @for($i = 1; $i <= 5; $i++)
+                    <i class="fas fa-star {{ $i <= $review->rating ? 'text-warning' : 'text-muted' }}"></i>
+                  @endfor
+                </div>
+                <img
+                  class="bg-white rounded-circle shadow p-1 mx-auto mb-3"
+                  src="https://ui-avatars.com/api/?name={{ urlencode($review->user->name ?? 'Guest') }}&background=0D6EFD&color=fff&size=80"
+                  style="width: 80px; height: 80px"
+                  alt="{{ $review->user->name ?? 'Guest' }}"
+                />
+                <h5 class="mb-0">{{ $review->user->name ?? 'Guest' }}</h5>
+                <p class="text-muted mb-2">{{ $review->tour->title }}</p>
+                <p class="mb-0">
+                  {{ Str::limit($review->comment, 200) }}
+                </p>
+                <small class="text-muted mt-2 d-block">
+                  {{ $review->created_at->format('M d, Y') }}
+                </small>
+              </div>
+            @endforeach
           </div>
-          <div class="testimonial-item bg-white text-center border p-4">
-            <img
-              class="bg-white rounded-circle shadow p-1 mx-auto mb-3"
-              src="img/testimonial-2.jpg"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Michael R</h5>
-            <p>Emirates, UAE</p>
-            <p class="mt-2 mb-0">
-              We had an amazing family vacation thanks to Serendib Journeys. The
-              itinerary was well-planned, and our chauffeur-guide made sure we
-              were comfortable at all times. The kids loved the wildlife safari
-              in Yala, and we enjoyed every moment of our trip. Definitely
-              booking with them again!
-            </p>
+        @else
+          <!-- Fallback testimonials when no reviews are available -->
+          <div class="owl-carousel testimonial-carousel position-relative">
+            <div class="testimonial-item bg-white text-center border p-4">
+              <div class="mb-3">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+              </div>
+              <img
+                class="bg-white rounded-circle shadow p-1 mx-auto mb-3"
+                src="https://ui-avatars.com/api/?name=Sarah+K&background=0D6EFD&color=fff&size=80"
+                style="width: 80px; height: 80px"
+                alt="Sarah K"
+              />
+              <h5 class="mb-0">Sarah K</h5>
+              <p class="text-muted mb-2">Sigiriya & Mirissa Tour</p>
+              <p class="mb-0">
+                A truly unforgettable experience! Serendib Journeys organized
+                everything perfectly, from the scenic tour of Sigiriya to the
+                relaxing beach days in Mirissa. Our guide was professional,
+                friendly, and knowledgeable, making the entire trip enjoyable and
+                stress-free. Highly recommend for anyone visiting Sri Lanka!
+              </p>
+              <small class="text-muted mt-2 d-block">Dec 15, 2024</small>
+            </div>
+            <div class="testimonial-item bg-white text-center border p-4">
+              <div class="mb-3">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+              </div>
+              <img
+                class="bg-white rounded-circle shadow p-1 mx-auto mb-3"
+                src="https://ui-avatars.com/api/?name=Michael+R&background=0D6EFD&color=fff&size=80"
+                style="width: 80px; height: 80px"
+                alt="Michael R"
+              />
+              <h5 class="mb-0">Michael R</h5>
+              <p class="text-muted mb-2">Yala Wildlife Safari</p>
+              <p class="mb-0">
+                We had an amazing family vacation thanks to Serendib Journeys. The
+                itinerary was well-planned, and our chauffeur-guide made sure we
+                were comfortable at all times. The kids loved the wildlife safari
+                in Yala, and we enjoyed every moment of our trip. Definitely
+                booking with them again!
+              </p>
+              <small class="text-muted mt-2 d-block">Dec 10, 2024</small>
+            </div>
+            <div class="testimonial-item bg-white text-center border p-4">
+              <div class="mb-3">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+              </div>
+              <img
+                class="bg-white rounded-circle shadow p-1 mx-auto mb-3"
+                src="https://ui-avatars.com/api/?name=David+P&background=0D6EFD&color=fff&size=80"
+                style="width: 80px; height: 80px"
+                alt="David P"
+              />
+              <h5 class="mb-0">David P</h5>
+              <p class="text-muted mb-2">Kandy Cultural Tour</p>
+              <p class="mb-0">
+                The team at Serendib Journeys was fantastic from start to finish.
+                They helped us customize our trip to include all the places we
+                wanted to see. Our guide was punctual, polite, and shared so much
+                fascinating history about the places we visited. This was our
+                first time in Sri Lanka, and it won't be the last!
+              </p>
+              <small class="text-muted mt-2 d-block">Dec 5, 2024</small>
+            </div>
           </div>
-          <div class="testimonial-item bg-white text-center border p-4">
-            <img
-              class="bg-white rounded-circle shadow p-1 mx-auto mb-3"
-              src="img/testimonial-3.jpg"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">David P</h5>
-            <p>Mumbai, India</p>
-            <p class="mt-2 mb-0">
-              The team at Serendib Journeys was fantastic from start to finish.
-              They helped us customize our trip to include all the places we
-              wanted to see. Our guide was punctual, polite, and shared so much
-              fascinating history about the places we visited. This was our
-              first time in Sri Lanka, and it won't be the last!
-            </p>
-          </div>
-          <div class="testimonial-item bg-white text-center border p-4">
-            <img
-              class="bg-white rounded-circle shadow p-1 mx-auto mb-3"
-              src="img/testimonial-4.jpg"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Anna M</h5>
-            <p>Emirates, UAE</p>
-            <p class="mt-2 mb-0">
-              What a seamless experience! Booking with Serendib Journeys was
-              easy, and the trip exceeded all expectations. The highlight was
-              our visit to Kandy, where we got to explore the Temple of the
-              Tooth. The accommodations were excellent, and our guide was simply
-              the best. Worth every penny!
-            </p>
-          </div>
-        </div> -->
-      <!-- Elfsight Google Reviews | Untitled Google Reviews -->
-      <script src="https://static.elfsight.com/platform/platform.js" async></script>
-      <div class="elfsight-app-dc60c22d-ba88-49ae-8a82-388b7fde4723" data-elfsight-app-lazy></div>
+        @endif
       </div>
     </div>
     <!-- Testimonial End -->
