@@ -185,13 +185,22 @@
                 </div>
                 <div class="p-6">
                     @php
-                        $completedTours = auth()->user()->bookings()
+                        // Get all completed bookings
+                        $allCompletedBookings = auth()->user()->bookings()
                             ->where('status', 'approved')
-                            ->whereDoesntHave('reviews', function($query) {
-                                $query->where('user_id', auth()->id());
-                            })
                             ->with('tour')
                             ->get();
+
+                        // Filter out tours that already have reviews from this user
+                        $completedTours = $allCompletedBookings->filter(function($booking) {
+                            if (!$booking->tour) return false;
+                            
+                            // Check if user has already reviewed this tour
+                            $existingReview = \App\Models\Review::where('user_id', auth()->id())
+                                                               ->where('tour_id', $booking->tour->id)
+                                                               ->exists();
+                            return !$existingReview;
+                        });
                     @endphp
                     
                     @if($completedTours->count() > 0)
